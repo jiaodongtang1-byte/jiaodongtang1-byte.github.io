@@ -104,7 +104,7 @@ export function IntroFilm({ onTransitionStart, onComplete }: IntroFilmProps) {
   }
 
   return (
-    <section className={`intro-film-overlay is-${stage}`} data-film-stage={stage} aria-label="小兔兔的星空开场短片">
+    <section className={`intro-film-overlay is-${stage}`} data-film-stage={stage} aria-label="公主的回家短片">
       <div className="intro-film-media" aria-hidden={stage === "cover"}>
         <img className="intro-film-poster" src={INTRO_POSTER_SRC} alt="" />
         <img className="intro-film-last-frame" src={INTRO_LAST_FRAME_SRC} alt="" />
@@ -128,9 +128,9 @@ export function IntroFilm({ onTransitionStart, onComplete }: IntroFilmProps) {
       {stage === "cover" && (
         <div className="intro-film-cover">
           <div className="intro-film-cover-copy">
-            <span>A STORY FOR LITTLE BUNNY</span>
-            <h1>一封只交给小兔兔的信</h1>
-            <p>{ready ? "故事已经抵达，请亲自接收。" : "星星正在穿过云层……"}</p>
+            <span>A ROYAL LETTER · FOR THE PRINCESS</span>
+            <h1>一封只交给公主的信</h1>
+            <p>{ready ? "王国的信使已经抵达，请亲自接收。" : "星星正在穿过云层……"}</p>
           </div>
           <button className="intro-film-start" type="button" onClick={playFilm}>
             <i aria-hidden="true" />

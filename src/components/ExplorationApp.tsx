@@ -21,12 +21,12 @@ import { useRadarBeeps } from "@/src/hooks/useRadarBeeps";
 import type { CapturedPhoto, ExplorationZone, MatchResult, PositionSample, StoryProgress } from "@/src/types";
 
 const giftNames = {
-  scent: "好闻的",
-  motion: "好用的",
-  sound: "好听的",
-  sparkle: "好看的",
-  taste: "好吃的",
-  love: "好爱的",
+  scent: "信物",
+  motion: "信物",
+  sound: "信物",
+  sparkle: "信物",
+  taste: "信物",
+  love: "信物",
 };
 
 export type FogCopy = {
@@ -579,8 +579,8 @@ export function ExplorationApp({
               <div className="envelope-letter-content">
                 <div className="eyebrow">PRIVATE DELIVERY · TO THE EXPLORER</div>
                 <h1>Exploration <em>Atlas</em></h1>
-                <p>今天，故事为小兔兔翻开第一页。</p>
-                <blockquote>这座城市正在因为你而亮起来。<br/>某一个地方，故事已经为你留了一页。</blockquote>
+                <p>十月九日，王国的门为你打开。</p>
+                <blockquote>你不是普通人——你是遗落在外的公主。<br/>今天，我们接你回家。</blockquote>
                 <div className="device-readiness" aria-label="设备就绪状态">
                   <span className="ready">{deviceStatus.label}</span>
                   <span className={deviceStatus.location ? "ready" : "warning"}>{deviceStatus.location ? "星光定位中" : "定位需暗门兜底"}</span>
@@ -591,7 +591,7 @@ export function ExplorationApp({
               <button ref={introWaxButton} className="wax-button intro-wax-trigger" disabled={introOpening} onClick={openAtlas} aria-label="开启地图"><span><i/></span><b>{introOpening ? "故事已送达 · 地图正在显影" : "打开信封 · 接收探索地图"}</b></button>
               <div className="envelope-wind-fold" aria-hidden="true" />
             </div>
-            <footer>THE STORY BEGINS · 2026</footer>
+            <footer>OCT 9 · 2026 · FOR THE PRINCESS</footer>
           </motion.section>
         )}
 
@@ -623,7 +623,7 @@ export function ExplorationApp({
                   onClick={() => setQuestExpanded((current) => !current)}
                 >{questExpanded ? "收起" : "查看线索"}</button>
                 <div className="quest-medallion" aria-hidden="true"><span className="quest-number">{String(coordinateNumber).padStart(2, "0")}</span></div>
-                <span className="eyebrow">{arrived ? "COORDINATE REVEALED" : "THE FIRST PAGE OF THE STORY"}</span>
+                <span className="eyebrow">{arrived ? "COORDINATE REVEALED" : "THE ROAD HOME"}</span>
                 <h2>{arrived ? checkpoint.label : concealedTitle}<small>{arrived ? giftNames[checkpoint.giftType] : concealedLabel}</small></h2>
                 {questExpanded && checkpoint.storyBeat && <p className="quest-story-beat">{checkpoint.storyBeat}</p>}
                 {questExpanded && <p className="quest-clue">{checkpoint.clue}</p>}
@@ -656,7 +656,7 @@ export function ExplorationApp({
           <motion.section className="finale-screen" key="finale" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="finale-generated-rune" aria-hidden="true" />
             <div className="finale-content">
-              <div className="final-heart" aria-hidden="true"><i/><span>♡</span></div><span>THE STORY HAS BEGUN</span><h1>Exploration<br/>Completed</h1><blockquote>这一段路，已经一页一页收好了。<br/>从今天起，你可以随时翻开新的一页——今年的主题是星星。<br/>不管走到哪里，我都陪你把这个好玩的世界慢慢走完。<br/><b>生日快乐，我的小兔兔。</b></blockquote>
+              <div className="final-heart" aria-hidden="true"><i/><span>♡</span></div><span>YOU ARE HOME</span><h1>Exploration<br/>Completed</h1><blockquote>你到家了。<br/>乐园的灯为你亮起来的时候，所有的星星都排好了队。<br/>从今天起，你可以去任何想去的地方——因为公主本来就该被这样对待。<br/><b>二十七岁生日快乐，我的公主。</b></blockquote>
               <div className="gallery-strip">{photos.length ? photos.map((photo) => <button key={photo.id} onClick={() => sharePhoto(photo)}><img src={photo.dataUrl} alt="探索复刻照片"/><span>{photo.score} 分 · 保存</span></button>) : <p>完成照片关卡后，探索相册会出现在这里。</p>}</div>
               {isRehearsalFlow && <button className="secondary-button" onClick={() => resetAll(true)}>重新彩排</button>}
             </div>

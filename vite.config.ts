@@ -47,9 +47,9 @@ export default defineConfig({
       manifest: {
         name: "Exploration Atlas",
         short_name: "Exploration",
-        description: "一张会逐步点亮的生日活点地图。",
-        theme_color: "#271b14",
-        background_color: "#271b14",
+        description: "接公主回家的星空地图。",
+        theme_color: "#0a1226",
+        background_color: "#0a1226",
         display: "standalone",
         orientation: "any",
         start_url: "/",

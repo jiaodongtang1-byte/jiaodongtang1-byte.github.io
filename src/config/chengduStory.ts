@@ -149,10 +149,10 @@ export const chengduZones: ExplorationZone[] = [
   defineZone({
     id: "xi-er-men",
     order: 1,
-    title: "电子科技大学西二门",
-    subtitle: "第一站 · 走查占位",
-    mysteryTitle: "第一枚坐标",
-    mysterySubtitle: "答案还在雾里",
+    title: "玻璃鞋 · 西二门",
+    subtitle: "第一件信物",
+    mysteryTitle: "第一件信物",
+    mysterySubtitle: "答案还在星雾里",
     accent: "#274554",
     start: {
       label: "占位起点：水杉路一侧",
@@ -161,10 +161,10 @@ export const chengduZones: ExplorationZone[] = [
     checkpoints: [
       dryRunCheckpoint({
         id: "cd-1",
-        label: "西二门 · 待定到达点",
+        label: "玻璃鞋的落点",
         location: { latitude: 30.754716, longitude: 103.921708 },
-        clue: "第一枚坐标在校园西北侧的那道门口。门外是一条热闹的街，门里是水杉路——走到门牌旁边就能看见。",
-        unlockCopy: "你从这里进出过很多次。往后的每一次出发，都会从这个门口开始。",
+        clue: "回家的路，从最不起眼的一道门开始。学校西北的那道门口，门外是热闹的街，门里是水杉路——玻璃鞋就藏在门牌附近。",
+        unlockCopy: "你在这里进出过很多次，却从不知道这扇门为你留了这么久。第一件信物，玻璃鞋，收好了。",
         photoPrompt: "站在门牌旁边，拍一张能看清门头和街景的照片，人要在画面里。",
       }),
     ],
@@ -172,10 +172,10 @@ export const chengduZones: ExplorationZone[] = [
   defineZone({
     id: "zhu-lou",
     order: 2,
-    title: "电子科技大学主楼",
-    subtitle: "第二站 · 走查占位",
-    mysteryTitle: "第二枚坐标",
-    mysterySubtitle: "答案还在雾里",
+    title: "魔镜 · 主楼",
+    subtitle: "第二件信物",
+    mysteryTitle: "第二件信物",
+    mysterySubtitle: "答案还在星雾里",
     accent: "#3f354a",
     start: {
       label: "占位起点：中轴线北段",
@@ -184,10 +184,10 @@ export const chengduZones: ExplorationZone[] = [
     checkpoints: [
       dryRunCheckpoint({
         id: "cd-2",
-        label: "主楼 · 待定到达点",
+        label: "魔镜的落点",
         location: { latitude: 30.749015, longitude: 103.925404 },
-        clue: "第二枚坐标落在学校的中轴线上——那栋远远就能看见屋顶的大楼。走到它正前方，面朝台阶站定。",
-        unlockCopy: "你现在站在它面前了。这条路你走过很多次，今天它只为你一个人亮着。",
+        clue: "第二件信物在中轴线上——那栋远远就能看见屋顶的大楼。走到它正前方，面朝台阶站定。魔镜会告诉你，你真正的样子。",
+        unlockCopy: "魔镜说，你一直都是公主，只是今天才有人告诉你。第二件信物，魔镜，收好了。",
         photoPrompt: "站上台阶，竖构图，让整栋楼和你一起入镜。",
       }),
     ],
@@ -195,10 +195,10 @@ export const chengduZones: ExplorationZone[] = [
   defineZone({
     id: "nan-men",
     order: 3,
-    title: "电子科技大学南门",
-    subtitle: "第三站 · 走查占位",
-    mysteryTitle: "第三枚坐标",
-    mysterySubtitle: "答案还在雾里",
+    title: "王国的钥匙 · 南门",
+    subtitle: "第三件信物",
+    mysteryTitle: "第三件信物",
+    mysterySubtitle: "答案还在星雾里",
     accent: "#4c5636",
     start: {
       label: "占位起点：校区南段",
@@ -207,10 +207,10 @@ export const chengduZones: ExplorationZone[] = [
     checkpoints: [
       dryRunCheckpoint({
         id: "cd-3",
-        label: "南门 · 待定到达点",
+        label: "钥匙的落点",
         location: { latitude: 30.74832, longitude: 103.921109 },
-        clue: "最后一枚坐标在南门。出这道门就是西源大道，回头能看见整片校园的轮廓。",
-        unlockCopy: "最后一程不用赶时间。在这里停下来，把这一页慢慢收好。",
+        clue: "最后一件信物在南门。出这道门就是西源大道，回头能看见整片校园的轮廓——钥匙，就在你回头的方向。",
+        unlockCopy: "三件信物都齐了。星图已经亮起，乐园的门在等你。",
         photoPrompt: "站在门口回身拍一张校园方向的照片。",
       }),
     ],
@@ -221,11 +221,11 @@ export const chengduZones: ExplorationZone[] = [
 // 这里先给一版通用说法，具体措辞等策划定稿。
 export const chengduFogCopy = {
   eyebrow: "TURNING THE PAGE",
-  body: "这一页已经收好。走到下一个入口，再让下一页从云雾中显形。",
+  body: "这一段路已经收好。往下一站走，星图会亮起来。",
   button: "我到了，翻开下一页",
   messages: [
-    "第一站已经收好。下一个地方，地图会告诉你。",
-    "两站都收好了。最后一程在同一片街区里连续显形。",
+    "第一件信物已经收好。下一站在中轴线上，星图会告诉你。",
+    "两件信物都收好了。最后一件，在你回头的方向。",
   ],
 };
 
