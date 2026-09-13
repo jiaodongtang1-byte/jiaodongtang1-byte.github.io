@@ -13,7 +13,7 @@ async function openCartographer(page: import("@playwright/test").Page) {
   await compass.dispatchEvent("pointerup");
   await page.locator("input[inputmode='numeric']").fill("1104");
   await page.getByRole("button", { name: "进入" }).click();
-  await expect(page.getByRole("heading", { name: "制图人控制台" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "引路人控制台" })).toBeVisible();
 }
 
 test("竖屏手机直接进入信封，不再被旋转墙拦截", async ({ page }) => {
@@ -26,7 +26,7 @@ test("竖屏手机直接进入信封，不再被旋转墙拦截", async ({ page 
 test("竖屏任务卡呈底部抽屉形态，点地图可收起", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("button", { name: "开启地图" }).click();
-  await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
+  await page.getByRole("button", { name: "我已到达，开始探索" }).click();
   const card = page.locator(".quest-card.floating-quest-card");
   await expect(card).toBeVisible({ timeout: 7_000 });
   const viewport = page.viewportSize()!;
@@ -41,7 +41,7 @@ test("手机跟随模式默认开启，拖动解除，按钮可恢复", async ({
   await context.setGeolocation({ latitude: 30.657, longitude: 104.0657, accuracy: 25 });
   await page.goto("/");
   await page.getByRole("button", { name: "开启地图" }).click();
-  await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
+  await page.getByRole("button", { name: "我已到达，开始探索" }).click();
   const map = page.getByLabel("可拖拽和双指缩放的探索地图");
   await expect(map).toBeVisible({ timeout: 7_000 });
   const follow = page.locator(".map-follow-toggle");
@@ -61,7 +61,7 @@ test("竖屏照片对比页改为上下排列", async ({ page, context, baseURL 
   await context.setGeolocation({ latitude: 30.657, longitude: 104.0657, accuracy: 25 });
   await page.goto("/");
   await page.getByRole("button", { name: "开启地图" }).click();
-  await page.getByRole("button", { name: "飞行扫帚已抵达，开始探索" }).click();
+  await page.getByRole("button", { name: "我已到达，开始探索" }).click();
   await openCartographer(page);
   await page.getByRole("button", { name: "强制抵达" }).click();
   await page.getByRole("button", { name: "开启照片复刻" }).click();

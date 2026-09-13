@@ -36,7 +36,7 @@ export function useGeolocation(enabled: boolean, maxAccuracy = 200) {
   const start = useCallback(() => {
     if (!("geolocation" in navigator)) {
       setStatus("unavailable");
-      setError("此设备没有提供网页定位能力。你仍可通过制图人暗门继续。 ");
+      setError("此设备没有提供网页定位能力。你仍可通过引路人暗门继续。 ");
       return;
     }
     stop();

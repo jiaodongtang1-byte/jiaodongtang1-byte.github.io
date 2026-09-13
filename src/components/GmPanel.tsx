@@ -62,9 +62,9 @@ export function GmPanel({
 
   return (
     <div className="gm-backdrop">
-      <section className="gm-panel" aria-label="制图人控制台">
+      <section className="gm-panel" aria-label="引路人控制台">
         <MagicMicroEffect variant="rune" />
-        <header><div><span>THE CARTOGRAPHER</span><h2>制图人控制台</h2></div><button onClick={onClose}>关闭</button></header>
+        <header><div><span>THE GUIDE</span><h2>引路人控制台</h2></div><button onClick={onClose}>关闭</button></header>
         <p>当前区域：{zone.title}<br/>当前关卡：{progress.activeCheckpointId}</p>
         <div className="gm-grid">
           <button onClick={onForceArrive}>强制抵达</button>

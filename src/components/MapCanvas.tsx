@@ -71,11 +71,11 @@ export function MapCanvas({
 }: Props) {
   const displayedTitle = arrived
     ? zone.title
-    : zone.mysteryTitle ?? `XXVIII · PAGE ${String(zone.order).padStart(2, "0")}`;
+    : zone.mysteryTitle ?? `✦ 第 ${String(zone.order).padStart(2, "0")}`;
   const pendingCoordinates = zone.checkpoints.filter(
     (item) => item.giftType !== "love" && !completedIds.includes(item.id),
   ).length;
-  const concealedSubtitle = (zone.mysterySubtitle ?? "成为巫师的下一步 · 坐标仍在雾中").replace(
+  const concealedSubtitle = (zone.mysterySubtitle ?? "故事的下一页 · 坐标还在星雾里").replace(
     /还藏着(?:最后)?[一二三四五六七八九十\d]+枚坐标/,
     pendingCoordinateCopy(pendingCoordinates),
   );
@@ -271,7 +271,7 @@ export function MapCanvas({
   }
 
   return (
-    <div className="map-stage" ref={stageRef} aria-label={`${displayedTitle} 活点地图`} onClick={onMapFocus}>
+    <div className="map-stage" ref={stageRef} aria-label={`${displayedTitle} 星空地图`} onClick={onMapFocus}>
       <div className="map-tools" aria-label="地图缩放">
         <button onClick={() => setZoom((value) => Math.min(1.18, value + 0.08))}>＋</button>
         <button onClick={() => setZoom((value) => Math.max(0.92, value - 0.08))}>−</button>

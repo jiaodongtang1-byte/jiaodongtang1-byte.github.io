@@ -113,7 +113,7 @@ export function CameraChallenge({
         sceneScore: 58,
         poseScore: null,
         subjectScore: 58,
-        message: "魔法镜暂时无法完成计算，可以更换照片或请制图人校准。",
+        message: "魔镜暂时看不清这张照片，可以换一张，或让引路人校准一下。",
       };
       setResult(fallback);
       onAttempt(fallback);
@@ -144,10 +144,10 @@ export function CameraChallenge({
         <div className="memory-scan-beam" aria-hidden="true" />
         <section className="photo-panel reference-photo-panel">
           <MagicMicroEffect variant="wave" />
-          <header><span>01</span><div><b>参考照片</b><small>由制图人提前拍摄</small></div></header>
+          <header><span>01</span><div><b>参考照片</b><small>由引路人提前拍摄</small></div></header>
           <div className="photo-stage">
-            <img src={reference} alt="制图人预先拍摄的模特参考照片" />
-            {temporaryReference && <div className="reference-pending">当前为示意图<br/>请在制图人模式上传真实参考照</div>}
+            <img src={reference} alt="引路人预先拍摄的模特参考照片" />
+            {temporaryReference && <div className="reference-pending">当前为示意图<br/>请在引路人模式上传真实参考照</div>}
           </div>
           {surveyMode && (
             <label className="secondary-button photo-file-button">
@@ -198,7 +198,7 @@ export function CameraChallenge({
         </button>
       </div>
       {photoError && <p className="photo-error" role="alert">{photoError}</p>}
-      {attempt >= 3 && <p className="magic-interference">魔法受到干扰，请让制图人长按罗盘进行校准。</p>}
+      {attempt >= 3 && <p className="magic-interference">星尘有点乱，请让引路人长按罗盘进行校准。</p>}
     </motion.div>
   );
 }

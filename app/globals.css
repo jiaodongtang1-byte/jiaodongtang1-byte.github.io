@@ -922,7 +922,7 @@ h1, h2, h3, blockquote, .display-type {
 .loading-screen .ink-loader { position: relative; z-index: 2; width: 78px; height: 78px; margin-top: 18vh; background: url('/assets/magic/exploration-wax-seal-v3.png') center/contain no-repeat; filter: drop-shadow(0 8px 10px #160806) drop-shadow(0 0 8px #dba9545e); animation: loadingSealPulse 2.2s ease-in-out infinite; }
 .loading-screen p { position: relative; z-index: 2; margin: -4px 0 0; color: #ead19b; letter-spacing: .14em; font-size: 11px; text-shadow: 0 2px 7px #080302; }
 
-/* Cookie XXIX film prologue — the final filmed envelope becomes the real invitation. */
+/* 开场短片的信封页 — the final filmed envelope becomes the real invitation. */
 .intro-film-overlay {
   position: fixed;
   z-index: 285;
