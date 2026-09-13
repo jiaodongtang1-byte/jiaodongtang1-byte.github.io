@@ -580,7 +580,7 @@ export function ExplorationApp({
                 <div className="eyebrow">PRIVATE DELIVERY · TO THE EXPLORER</div>
                 <h1>Exploration <em>Atlas</em></h1>
                 <p>今天，是天才巫师饼饼的入学日。</p>
-                <blockquote>杭州这座城市，正在因为你而暗潮涌动。<br/>在不知名的某处地方，将翻转出特殊的惊喜。</blockquote>
+                <blockquote>成都这座城市，正在因为你而暗潮涌动。<br/>在不知名的某处地方，将翻转出特殊的惊喜。</blockquote>
                 <div className="device-readiness" aria-label="设备就绪状态">
                   <span className="ready">{deviceStatus.label}</span>
                   <span className={deviceStatus.location ? "ready" : "warning"}>{deviceStatus.location ? "麻瓜定位中" : "定位需暗门兜底"}</span>

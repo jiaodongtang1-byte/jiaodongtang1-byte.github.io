@@ -443,14 +443,11 @@ h1, h2, h3, blockquote, .display-type {
 .feather-one { left: 67%; top: 5%; animation: featherFall 13s ease-in-out 6s infinite; }
 .feather-two { left: 28%; top: 1%; transform: scale(.7); animation: featherFallTwo 17s ease-in-out 13s infinite; }
 .illustrated-base-map { filter: sepia(.2) saturate(.78) contrast(1.04) brightness(.96); }
-.has-illustrated-base .legacy-blueprint { display: none; }
 .has-illustrated-base .coordinate-grid { opacity: .08; }
 .has-illustrated-base .atlas-compass { opacity: .88; filter: drop-shadow(0 1px 0 #d2b173); }
 .has-illustrated-base .map-scale { opacity: .82; }
 .tile-base-map image { filter: sepia(.24) saturate(.76) contrast(1.02) brightness(1.02); }
-.has-tile-base .legacy-blueprint { display: none; }
 /* 瓦片区域即使加载失败也不回退杭州线稿（线稿上的街道名属于杭州） */
-.has-tile-zone .legacy-blueprint { display: none; }
 .has-tile-base .coordinate-grid { opacity: .06; }
 .has-tile-base .atlas-compass { opacity: .88; filter: drop-shadow(0 1px 0 #d2b173); }
 .has-tile-base .map-scale { opacity: .82; }
