@@ -1,1 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#d2b77f"/><g fill="none" stroke="#34251c" stroke-width="10"><path d="M70 680h1060M110 680V220h980v460"/><path d="M160 270h880M180 330h250v280H180zM475 330h250v280H475zM770 330h250v280H770z"/><circle cx="600" cy="470" r="165"/><circle cx="600" cy="470" r="82"/><circle cx="600" cy="470" r="13"/></g><g fill="#34251c"><circle cx="300" cy="360" r="39"/><path d="M260 410q40-30 80 0l28 190H228z"/><circle cx="344" cy="378" r="78" fill="#d2b77f" stroke="#34251c" stroke-width="14"/></g><text x="70" y="105" font-family="serif" font-size="58" fill="#34251c">SOUND DISTRICT</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="参考照片待补拍">
+  <defs>
+    <radialGradient id="refNight" cx="50%" cy="42%" r="72%">
+      <stop offset="0%" stop-color="#21335f"/>
+      <stop offset="58%" stop-color="#101c3c"/>
+      <stop offset="100%" stop-color="#060a16"/>
+    </radialGradient>
+    <linearGradient id="refGold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f3dfa6"/>
+      <stop offset="52%" stop-color="#e9c877"/>
+      <stop offset="100%" stop-color="#b89455"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#refNight)"/>
+  <g fill="#fff6d8" opacity=".55">
+    <circle cx="150" cy="130" r="2.6"/><circle cx="320" cy="86" r="1.8"/><circle cx="520" cy="150" r="2.2"/>
+    <circle cx="760" cy="96" r="1.6"/><circle cx="980" cy="140" r="2.4"/><circle cx="1080" cy="240" r="1.8"/>
+    <circle cx="96" cy="330" r="1.6"/><circle cx="1130" cy="470" r="2"/><circle cx="210" cy="690" r="1.8"/>
+    <circle cx="640" cy="726" r="2.2"/><circle cx="930" cy="660" r="1.6"/><circle cx="420" cy="620" r="1.4"/>
+  </g>
+
+  <g fill="none" stroke="url(#refGold)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="86" y="86" width="1028" height="628" rx="18" opacity=".55"/>
+    <rect x="112" y="112" width="976" height="576" rx="10" opacity=".3" stroke-dasharray="14 16"/>
+  </g>
+
+  <!-- 版面留出下三分之一：底部那条「当前为示意图」提示条是 DOM 元素，会压在这里 -->
+  <text x="600" y="196" fill="#e9c877" font-family="Georgia, serif" font-size="24" text-anchor="middle" letter-spacing="10">POSE REFERENCE PENDING</text>
+  <text x="600" y="286" fill="#f4ecd8" font-family="Georgia, 'Songti SC', serif" font-size="56" font-weight="600" text-anchor="middle" letter-spacing="6">参考姿势照 · 待补拍</text>
+
+  <g fill="none" stroke="url(#refGold)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="476" y="356" width="248" height="182" rx="26"/>
+    <path d="M524 356l24-40h104l24 40"/>
+    <circle cx="600" cy="444" r="55"/>
+    <path d="M684 402h20"/>
+  </g>
+
+  <g fill="#ffe6a8" opacity=".9">
+    <path d="M600 316l8 22 22 8-22 8-8 22-8-22-22-8 22-8z"/>
+    <path d="M792 350l6 16 16 6-16 6-6 16-6-16-16-6 16-6z" opacity=".7"/>
+    <path d="M398 356l5 14 14 5-14 5-5 14-5-14-14-5 14-5z" opacity=".7"/>
+  </g>
+
+  <text x="600" y="628" fill="#a9b6d4" font-family="Georgia, 'Songti SC', serif" font-size="28" text-anchor="middle" letter-spacing="3">站在原地按提示摆好姿势，让同行的人拍一张</text>
+</svg>

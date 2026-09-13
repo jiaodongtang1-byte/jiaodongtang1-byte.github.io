@@ -17,6 +17,49 @@
   替换之前别把 App 发出去。
 - 玩法词汇保留：星空地图 / 麻瓜定位 / 引路人暗门（PIN **1104**，`GM_PIN`）/ 墨点已定位 / 云雾转场。
 
+## 主题：迪士尼星空（2026-09-13 起）
+
+收件人喜欢迪士尼，场景定为**星空城堡/深蓝夜空**，哈利波特的元素全部撤掉。两条硬规矩：
+
+- **不要哈利波特的招牌视觉**：猫头鹰送信（信使猫头鹰/羽毛/俯冲）、自写羽毛笔、符文咒印、
+  麻瓜、巫师——这些一律不回。已经换掉的：猫头鹰→**流星**（纯 CSS，无位图）、
+  羽毛笔→**仙女棒**、兔爪印→**仙尘星点**。旧雪碧图暂存
+  `90归档\待确认删除\project-037-哈利波特元素-20260913\`。
+- **配色按角色改，不按颜色改**：`app/globals.css` 末尾那段「星空城堡试色」给了
+  面/字/线/蜡封 四类语义新值。历史上两次全量换色翻车都是因为按颜色映射，
+  浅底深字整体反转后变成深底深字。新加规则请沿用那一节的 token
+  （`--night-*` / `--moon*` / `--star` / `--royal`）。
+
+底图入夜用的是**反相 + 转蓝**（`.map-stage .tile-base-map image`），不是单纯压暗——
+压暗会把街道压成一团灰。
+
+### 两个反复踩到的坑
+
+- **关键帧里带 `filter` 的动画会盖掉静态 `filter`**。给 `.unlock-seal` / `.intro-film-start i`
+  这类元素转色时，只写 `filter: hue-rotate(...)` 没用——它们各自带着 `medallionBreathe`、
+  `introFilmSealAwait`，动画里的 filter 优先级更高。得另写一版带转色的关键帧再去覆盖 `animation`。
+- **`.certs/` 存在时 `npm run preview` 走 https**，而 playwright 配的是 `http://127.0.0.1:4187`，
+  e2e 会全挂并报 `Server returned nothing`。跑 e2e 前先把 `.certs` 挪走，跑完挪回来。
+
+### 开场短片是 DOM 绘本，不是视频
+
+原片 62 秒 20MB，画面里有羽毛笔、字幕写着「二十二年」，都撤了。现在是 `IntroFilm.tsx` 里的
+六页 DOM 绘本（夜空 + 金色线描），文案直接写在该文件顶部的 `FILM_PAGES` 里。
+原片的声音抽成了 `public/assets/audio/intro-film-score.mp3`（787KB）当配乐。
+**玻璃鞋的 SVG 侧影试了九稿才读得出是鞋**——改那段 path 前先单独渲染看一眼，别直接改。
+
+## 发布：远端是无历史的压缩分支
+
+`origin/main` 不是本地 `main` 的后代——本地留着真历史，远端只接收**压缩过的单提交**
+（当初为了不把早期历史里的私密文档重新推上去）。所以 `git push origin main` 会报
+`tip of your current branch is behind`，这是预期现象，不是权限问题。正确推法：
+
+```bash
+git fetch origin
+NEW=$(git commit-tree HEAD^{tree} -p origin/main -m "$(git log -1 --format=%B HEAD)")
+git push origin "$NEW:refs/heads/main"
+```
+
 ## 部署：生日当天不能依赖这台电脑
 
 必须托管到一个**真证书的 https 地址**——浏览器只在安全上下文（https）里给定位权限，
