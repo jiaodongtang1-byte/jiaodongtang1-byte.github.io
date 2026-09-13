@@ -132,7 +132,7 @@ export function MapCanvas({
   const [follow, setFollow] = useState(true);
   const stageRef = useRef<HTMLDivElement>(null);
   const [stageSize, setStageSize] = useState({ w: 1180, h: 820 });
-  const [pawTrail, setPawTrail] = useState<Array<{
+  const [pixieTrail, setPawTrail] = useState<Array<{
     id: string;
     x: number;
     y: number;
@@ -351,22 +351,16 @@ export function MapCanvas({
               aria-hidden="true"
             />
           )}
-          {pawTrail.map((point) => {
+          {pixieTrail.map((point) => {
             return (
               <g
                 key={point.id}
-                className="paw-trail"
+                className="pixie-trail"
                 transform={`translate(${point.x} ${point.y}) rotate(${point.angle}) translate(${point.side % 2 ? 3.4 : -3.4} 0)`}
               >
-                <circle className="paw-ripple paw-ripple-first" r="4.5" />
-                <circle className="paw-ripple paw-ripple-second" r="4.5" />
-                <g className="paw-print">
-                  <ellipse className="paw-pad" cy="2.2" rx="3.9" ry="3.25" />
-                  <ellipse className="paw-toe" cx="-4.1" cy="-2.2" rx="1.35" ry="1.75" transform="rotate(-24 -4.1 -2.2)" />
-                  <ellipse className="paw-toe" cx="-1.35" cy="-4.25" rx="1.3" ry="1.75" transform="rotate(-8 -1.35 -4.25)" />
-                  <ellipse className="paw-toe" cx="1.6" cy="-4.15" rx="1.3" ry="1.75" transform="rotate(9 1.6 -4.15)" />
-                  <ellipse className="paw-toe" cx="4.25" cy="-1.9" rx="1.3" ry="1.7" transform="rotate(25 4.25 -1.9)" />
-                </g>
+                <circle className="pixie-ripple pixie-ripple-first" r="4.5" />
+                <circle className="pixie-ripple pixie-ripple-second" r="4.5" />
+                <path className="pixie-star" d="M0-6.2 1.6-1.6 6.2 0 1.6 1.6 0 6.2-1.6 1.6-6.2 0-1.6-1.6Z" />
               </g>
             );
           })}

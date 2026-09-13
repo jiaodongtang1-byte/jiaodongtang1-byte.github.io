@@ -198,7 +198,6 @@ export function ExplorationApp({
       "/assets/magic/parchment-cinematic-v1.jpg",
       "/assets/magic/explorer-envelope-open-v3.png",
       "/assets/magic/exploration-wax-seal-v3.png",
-      "/assets/magic/owl-courier-sprite-v1.png",
       "/assets/magic/gilded-atlas-frame-v2.png",
       "/assets/magic/constellation-veins-v2.png",
       ...mapAssets,

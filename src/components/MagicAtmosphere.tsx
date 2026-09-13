@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import type { Checkpoint, StoryProgress } from "@/src/types";
-import { CinematicOwl } from "./CinematicOwl";
+import { CinematicComet } from "./CinematicComet";
 
 type Props = {
   phase: StoryProgress["phase"];
@@ -40,31 +40,31 @@ export function MagicAtmosphere({ phase, giftType, awake = true }: Props) {
         ))}
       </div>
 
-      <svg className="rune-dial rune-dial-left" viewBox="0 0 120 120">
+      <svg className="star-dial star-dial-left" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="48" />
         <circle cx="60" cy="60" r="36" />
         <path d="M60 9v15M60 96v15M9 60h15M96 60h15M24 24l11 11M85 85l11 11M96 24 85 35M35 85 24 96" />
-        <path className="rune-marks" d="M60 17 68 34 86 35 73 48 77 67 60 58 43 67 47 48 34 35 52 34Z" />
+        <path className="star-marks" d="M60 17 68 34 86 35 73 48 77 67 60 58 43 67 47 48 34 35 52 34Z" />
       </svg>
-      <svg className="rune-dial rune-dial-right" viewBox="0 0 120 120">
+      <svg className="star-dial star-dial-right" viewBox="0 0 120 120">
         <circle cx="60" cy="60" r="47" />
         <path d="M60 13 72 43 106 60 72 77 60 107 48 77 14 60 48 43Z" />
-        <path className="rune-marks" d="M43 30q17-12 34 0M90 43q12 17 0 34M77 90q-17 12-34 0M30 77q-12-17 0-34" />
+        <path className="star-marks" d="M43 30q17-12 34 0M90 43q12 17 0 34M77 90q-17 12-34 0M30 77q-12-17 0-34" />
       </svg>
 
-      <div className="enchanted-quill">
+      <div className="fairy-wand">
         <svg viewBox="0 0 96 122">
-          <path className="quill-feather" d="M77 6C42 13 17 43 19 86c15-4 29-15 40-31-6 15-18 29-36 42l6 5c19-18 36-37 48-59 8-15 10-29 0-37Z" />
-          <path className="quill-spine" d="M23 98C42 75 59 48 76 10" />
-          <path className="quill-barbs" d="m30 78-9-16m20 1-15-21m27 3-16-19m26 3-10-13" />
+          <path className="wand-grip" d="M14 114 30 84" />
+          <path className="wand-rod" d="M30 84 70 14" />
+          <path className="wand-star" d="M74 4 79 22 96 27 79 32 74 50 69 32 52 27 69 22Z" />
         </svg>
-        <span className="quill-ink-line" />
+        <span className="wand-trail" />
       </div>
 
-      <div className="owl-flight-shadow" />
-      <div className="owl-wind-lanes"><i/><i/><i/><i/></div>
-      <div className="courier-owl"><CinematicOwl className="owl-courier-hero" /></div>
-      <div className="owl-feather-burst"><i/><i/><i/><i/><i/><i/></div>
+      <div className="comet-trail-shadow" />
+      <div className="comet-wake"><i/><i/><i/><i/></div>
+      <div className="courier-comet"><CinematicComet className="comet-courier-hero" /></div>
+      <div className="comet-spark-burst"><i/><i/><i/><i/><i/><i/></div>
       <div className="magic-edge magic-edge-top" />
       <div className="magic-edge magic-edge-bottom" />
     </div>
