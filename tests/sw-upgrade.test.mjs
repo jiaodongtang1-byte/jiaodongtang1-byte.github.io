@@ -20,6 +20,8 @@ const mime = {
   ".svg": "image/svg+xml",
   ".task": "application/octet-stream",
   ".wasm": "application/wasm",
+  ".webp": "image/webp",
+  ".mp3": "audio/mpeg",
 };
 
 test("an installed v1 worker is replaced without interrupting an already-open atlas", async () => {
@@ -79,12 +81,14 @@ test("an installed v1 worker is replaced without interrupting an already-open at
     await page.waitForFunction(
       () => window.__atlasUpdateMessages?.some((message) => message?.type === "ATLAS_UPDATED"),
       undefined,
-      { timeout: 30_000 },
+      // 默认轮询走 requestAnimationFrame，本机 headless WebKit 下不触发；
+      // 这条断言等的是 Service Worker 消息，跟渲染帧无关，用定时轮询。
+      { timeout: 30_000, polling: 300 },
     );
 
     assert.equal(navigations, 0, "the active experience must not be reloaded during an update");
     assert.equal(await page.getByRole("heading", { name: "LEGACY LINE MAP" }).count(), 1);
-    assert.equal(await page.getByRole("heading", { name: "Exploration Atlas" }).count(), 0);
+    assert.equal(await page.getByRole("heading", { name: "城堡的灯一直亮着" }).count(), 0);
 
     const cacheNames = await page.evaluate(() => caches.keys());
     assert.equal(
@@ -95,7 +99,7 @@ test("an installed v1 worker is replaced without interrupting an already-open at
     );
 
     await page.reload();
-    await page.getByRole("heading", { name: "Exploration Atlas" }).waitFor({ timeout: 30_000 });
+    await page.getByRole("heading", { name: "城堡的灯一直亮着" }).waitFor({ timeout: 30_000 });
   } finally {
     await browser.close();
     await new Promise((resolve) => server.close(resolve));

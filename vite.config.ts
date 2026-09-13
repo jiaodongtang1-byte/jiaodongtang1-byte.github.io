@@ -45,9 +45,9 @@ export default defineConfig({
         "mediapipe/wasm/*",
       ],
       manifest: {
-        name: "Exploration Atlas",
-        short_name: "Exploration",
-        description: "接公主回家的星空地图。",
+        name: "魔法城堡",
+        short_name: "魔法城堡",
+        description: "接公主回家的魔法城堡。",
         theme_color: "#0a1226",
         background_color: "#0a1226",
         display: "standalone",

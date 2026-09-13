@@ -2,9 +2,9 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-test("builds the Exploration Atlas shell", async () => {
+test("builds the magic-castle shell", async () => {
   const html = await readFile(new URL("../dist/index.html", import.meta.url), "utf8");
-  assert.match(html, /<title>Exploration Atlas<\/title>/i);
+  assert.match(html, /<title>魔法城堡 · 接公主回家<\/title>/i);
   assert.match(html, /id="root"/i);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton|Your site is taking shape/i);
 });

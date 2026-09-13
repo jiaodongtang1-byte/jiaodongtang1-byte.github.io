@@ -1,0 +1,356 @@
+/* ==========================================================================
+   魔法城堡 · 设计令牌与基础样式（2026-09-13 从头重写）
+   全站唯一一份样式。没有覆盖层、没有第二套配色、没有历史遗留的暖色。
+   深色优先：所有颜色先按夜空定义，不存在"浅色版"。
+   ========================================================================== */
+
+:root {
+  /* 夜空：由深到浅的四层"面" */
+  --sky-0: #060a1a;
+  --sky-1: #0d1430;
+  --sky-2: #16204a;
+  --sky-3: #212d63;
+
+  /* 光：金是主光，粉与青是烟花与仙尘 */
+  --gold: #f2d489;
+  --gold-dim: #b9944c;
+  --gold-deep: #7a5f28;
+  --rose: #ff9ec4;
+  --mint: #7fe0d0;
+  --royal: #6d4bb5;
+  --royal-lift: #a184e0;
+
+  /* 字：月白为正文，雾蓝为次要 */
+  --moon: #fdf6e6;
+  --mist: #b3bfe4;
+  --veil: #7b88b5;
+
+  /* 线 */
+  --line: #33406f;
+  --line-lit: #4a5a92;
+
+  /* 尺寸与节奏 */
+  --r-sm: 4px;
+  --r-md: 10px;
+  --r-lg: 18px;
+  --pad-screen: clamp(16px, 4vw, 40px);
+  --shadow-deep: 0 24px 70px #02040fb3;
+  --shadow-lift: 0 10px 30px #02040f80;
+
+  --font-body: "Atlas Serif SC", "Songti SC", "STSong", serif;
+  --font-display: "Atlas Display", "Atlas Serif SC", "Songti SC", serif;
+  --font-inscription: "Atlas Inscription", "Atlas Serif SC", serif;
+
+  --ease-soft: cubic-bezier(.22, .8, .3, 1);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  color: var(--moon);
+  background: var(--sky-0);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+}
+
+h1, h2, h3 { margin: 0; font-family: var(--font-display); font-weight: 600; line-height: 1.1; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img, svg { display: block; max-width: 100%; }
+blockquote { margin: 0; }
+
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   积木 1 · 夜空
+   ========================================================================== */
+
+.sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% 108%, #2a1f5e 0%, transparent 62%),
+    radial-gradient(ellipse 90% 60% at 50% 0%, #1a2350 0%, transparent 70%),
+    linear-gradient(180deg, var(--sky-0) 0%, var(--sky-1) 55%, #0a0f26 100%);
+}
+
+/* 星星分两批，用不同周期闪，避免整齐划一 */
+.sky-star { position: absolute; border-radius: 50%; background: #fff8e0; animation: starBreath 4.2s ease-in-out infinite; }
+.sky-star.is-far { background: #cdd8ff; animation-duration: 6.4s; }
+
+@keyframes starBreath { 0%, 100% { opacity: .28; } 48% { opacity: 1; } }
+
+/* 仙尘：一条从左下划到右上的弧，光点沿途明灭 */
+.sky-dust { position: absolute; inset: 0; pointer-events: none; }
+.sky-dust i {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: #fff3c4;
+  box-shadow: 0 0 10px #ffe9a8cc, 0 0 22px #7fe0d066;
+  opacity: 0;
+  animation: dustDrift 9s linear infinite;
+}
+
+@keyframes dustDrift {
+  0% { opacity: 0; transform: translate(0, 0) scale(.4); }
+  12% { opacity: .9; }
+  70% { opacity: .55; }
+  100% { opacity: 0; transform: translate(var(--dx, 18vw), var(--dy, -22vh)) scale(1); }
+}
+
+/* ==========================================================================
+   积木 2 · 城堡与烟花（迪士尼的招牌画面）
+   ========================================================================== */
+
+.castle { width: 100%; height: auto; overflow: visible; }
+.castle-body { fill: #101838; stroke: var(--gold); stroke-width: 1.6; stroke-linejoin: round; }
+.castle-lit { fill: var(--gold); opacity: .9; }
+.castle-window { fill: #ffd98a; opacity: .85; animation: windowGlow 5.2s ease-in-out infinite; }
+.castle-window.is-dim { animation-duration: 7.6s; animation-delay: -2.4s; }
+.castle-flag { fill: var(--rose); opacity: .9; }
+
+@keyframes windowGlow { 0%, 100% { opacity: .45; } 45% { opacity: 1; } }
+
+/* 每一朵是**一个零尺寸的点**，射线从这一点往外发；缩放也就绕着这一点做。
+   早先把 .firework 铺满整屏、transform-origin 用百分比，结果缩放绕的是屏幕中心，
+   烟花散成了一圈虚线点。 */
+.firework {
+  position: absolute;
+  left: var(--fx, 50%);
+  top: var(--fy, 30%);
+  width: 0; height: 0;
+  animation: fireworkPop 3.6s ease-out infinite;
+}
+.firework i {
+  position: absolute;
+  left: -1.5px; top: -1.5px;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--fc, #ffd98a);
+  box-shadow: 0 0 9px var(--fc, #ffd98a);
+}
+.firework-ring {
+  position: absolute;
+  left: 0; top: 0;
+  width: 2px; height: 2px;
+  margin: -1px 0 0 -1px;
+  border-radius: 50%;
+  border: 1.5px solid var(--fc);
+  animation: fireworkRing 3.6s ease-out infinite;
+}
+
+@keyframes fireworkPop {
+  0% { opacity: 0; transform: scale(.15); }
+  12% { opacity: 1; transform: scale(1); }
+  55% { opacity: .75; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(1.9); }
+}
+@keyframes fireworkRing {
+  0% { opacity: .8; transform: scale(1); }
+  60% { opacity: .25; transform: scale(26); }
+  100% { opacity: 0; transform: scale(34); }
+}
+
+/* ==========================================================================
+   积木 3 · 烫金画框 / 印章 / 按钮
+   ========================================================================== */
+
+.plate {
+  position: relative;
+  display: block;
+  padding: 8px;
+  background: linear-gradient(150deg, var(--sky-2), var(--sky-0));
+  border: 1px solid var(--gold-dim);
+  box-shadow: 0 0 0 1px var(--sky-0), 0 0 0 4px #f2d4892e, var(--shadow-deep);
+}
+.plate::after { content: ""; position: absolute; inset: 4px; pointer-events: none; border: 1px solid #f2d48959; }
+.plate > img { width: 100%; height: auto; filter: saturate(.88) contrast(1.05) brightness(.95); }
+
+/* 火漆印：纯 CSS 画，不依赖位图 */
+.seal {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, var(--royal-lift), var(--royal) 52%, #2a1a52);
+  border: 2px solid #1d1238;
+  box-shadow: 0 8px 20px #02040fcc, 0 0 26px #a184e059, inset 0 -8px 14px #1a0f3a99, inset 0 7px 12px #ffffff30;
+  color: var(--gold);
+}
+.seal::after {
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border-radius: 50%;
+  border: 1px dashed #f2d48970;
+}
+.seal svg { width: 46%; height: 46%; }
+
+/* 主按钮：王冠紫 + 金边 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--gold-dim);
+  background: linear-gradient(180deg, var(--royal-lift), var(--royal) 58%, #4a2f8a);
+  color: var(--moon);
+  font-size: 15px;
+  letter-spacing: .04em;
+  box-shadow: 0 8px 22px #02040f99, inset 0 1px 0 #ffffff3d;
+  transition: transform .18s var(--ease-soft), filter .18s ease, box-shadow .18s ease;
+}
+.btn:hover { filter: brightness(1.08); box-shadow: 0 10px 26px #02040fb3, 0 0 20px #a184e04d, inset 0 1px 0 #ffffff4d; }
+.btn:active { transform: translateY(1px) scale(.985); }
+.btn:disabled { opacity: .55; cursor: progress; }
+.btn.is-quiet {
+  background: linear-gradient(180deg, var(--sky-3), var(--sky-2));
+  border-color: var(--line-lit);
+  box-shadow: var(--shadow-lift);
+}
+.btn.is-ghost { background: none; border-color: var(--line); color: var(--mist); }
+.btn.is-wide { width: 100%; }
+
+/* 小标签 */
+.eyebrow {
+  display: block;
+  font-family: var(--font-inscription);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ==========================================================================
+   积木 4 · 罗盘表盘（雷达）
+   ========================================================================== */
+
+.dial { position: relative; flex: 0 0 auto; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line-lit); background: radial-gradient(circle at 50% 50%, #ffffff1c, #ffffff05 72%); }
+.dial-ring { position: absolute; border-radius: 50%; border: 1px dashed #f2d48959; }
+.dial-ring.a { inset: 8%; }
+.dial-ring.b { inset: 30%; border-style: solid; border-color: #f2d4892e; }
+.dial-core { position: absolute; left: 50%; top: 50%; width: 9%; aspect-ratio: 1; margin: -4.5% 0 0 -4.5%; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px #f2d489a6; }
+.dial-needle {
+  position: absolute; left: 50%; bottom: 50%;
+  width: 3px; height: 42%;
+  margin-left: -1.5px;
+  transform-origin: 50% 100%;
+  background: linear-gradient(180deg, var(--gold), var(--rose) 70%, transparent);
+  clip-path: polygon(50% 0, 100% 84%, 50% 100%, 0 84%);
+  transition: transform .25s ease-out;
+}
+.dial-pulse { position: absolute; inset: 8%; border-radius: 50%; border: 2px solid var(--gold); animation: dialPulse 1s ease-out infinite; }
+
+@keyframes dialPulse { 0% { transform: scale(.74); opacity: .85; } 100% { transform: scale(1.06); opacity: 0; } }
+
+/* ==========================================================================
+   屏幕骨架
+   ========================================================================== */
+
+.screen {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  overflow: hidden;
+  contain: layout paint;
+}
+
+.screen-center {
+  place-items: center;
+  align-content: center;
+  padding: var(--pad-screen);
+  gap: 18px;
+  text-align: center;
+}
+
+/* 顶部条 */
+.topbar {
+  position: absolute; z-index: 20;
+  top: max(10px, env(safe-area-inset-top));
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
+  height: 52px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px;
+  padding: 0 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: linear-gradient(90deg, #0d1430f2, #16204ae0 62%, #0d1430f2);
+  box-shadow: var(--shadow-lift);
+  backdrop-filter: blur(6px);
+}
+.topbar-title { min-width: 0; }
+.topbar-title b { display: block; font-family: var(--font-display); font-size: 17px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-title span { display: block; font-size: 8px; letter-spacing: .2em; color: var(--veil); text-transform: uppercase; }
+.topbar-dots { display: flex; gap: 9px; flex: 0 0 auto; }
+.topbar-dots i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--line-lit); }
+.topbar-dots i.is-on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 10px #f2d489; }
+.chip {
+  flex: 0 0 auto;
+  padding: 5px 11px;
+  border: 1px solid var(--line-lit);
+  border-radius: 999px;
+  font-size: 10px;
+  color: var(--mist);
+  white-space: nowrap;
+}
+.chip::before { content: "✦"; margin-right: 6px; color: var(--gold); }
+
+/* 底部小工具（音乐 / 指南针） */
+.tools { position: absolute; z-index: 18; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; gap: 10px; }
+.tools.is-left { left: max(12px, env(safe-area-inset-left)); }
+.tools.is-right { right: max(12px, env(safe-area-inset-right)); }
+.tool-btn {
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--gold-dim);
+  background: radial-gradient(circle at 36% 30%, #2a3568, #0d1430);
+  box-shadow: var(--shadow-lift), inset 0 0 0 1px #f2d48926;
+  color: var(--gold);
+  font-size: 18px;
+}
+.tool-btn:active { transform: scale(.96); }
+.tool-btn.is-big { width: 60px; height: 60px; font-size: 22px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.tool-btn.is-spinning { animation: spin 7s linear infinite; }
+
+/* 设计令牌：屏幕各页共用 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
+/* ==========================================================================
+   分层：装饰沉到内容**下面**，内容一律不用改。
+   绝对定位的兄弟会画在静态内容上面，所以要么把内容抬起来、要么把装饰沉下去。
+   抬起来那条路走不通——`.screen > *` 会把 `.hunt-map` 的 absolute 也改成
+   relative，地图当场塌成一条。所以改成给装饰负 z-index，并让屏幕自己成栈。
+   ========================================================================== */
+.screen { isolation: isolate; }
+.screen > .sky { z-index: -3; }
+.screen > .fireworks,
+.screen > .cover-fireworks,
+.screen > .finale-fireworks { z-index: -2; }
+.screen > .cover-castle,
+.screen > .finale-castle { z-index: -1; }

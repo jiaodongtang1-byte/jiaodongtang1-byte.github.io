@@ -1,3 +1,5 @@
+/** 全站共用的数据类型。旧版的 Checkpoint / ExplorationZone / GiftType 已随旧模型删除。 */
+
 export type LatLng = {
   latitude: number;
   longitude: number;
@@ -10,76 +12,8 @@ export type MapBounds = {
   west: number;
 };
 
-export type GiftType =
-  | "scent"
-  | "motion"
-  | "sound"
-  | "sparkle"
-  | "taste"
-  | "love";
-
+/** 照片比对模式：连姿势一起比，还是只比场景。 */
 export type MatchMode = "pose-scene" | "scene-only";
-
-export type Checkpoint = {
-  id: string;
-  label: string;
-  mysteryTitle?: string;
-  mysteryLabel?: string;
-  storyBeat?: string;
-  giftType: GiftType;
-  location: LatLng;
-  unlockRadiusM: number;
-  referenceImage: string;
-  matchMode: MatchMode;
-  passScore: number;
-  clue: string;
-  unlockCopy: string;
-  photoPrompt: string;
-  mapPoint: { x: number; y: number };
-};
-
-export type ExplorationZone = {
-  id: string;
-  order: number;
-  title: string;
-  subtitle: string;
-  mysteryTitle?: string;
-  mysterySubtitle?: string;
-  parkingLabel: string;
-  parkingMapPoint: { x: number; y: number };
-  center: LatLng;
-  /** Browser geolocation and every runtime checkpoint must use WGS-84. */
-  coordinateSystem: "wgs84";
-  routeGeo: LatLng[];
-  /** Hand-drawn map control points paired one-to-one with routeGeo. */
-  mapRoutePoints?: Array<{ x: number; y: number }>;
-  svgPath: string;
-  maxLocationAccuracyM: number;
-  accent: string;
-  mapKind: "arcade" | "garden" | "vinyl" | "city";
-  /** Formal maps use a fixed geographic north-up projection. */
-  mapOrientation?: "north-up" | "illustrated-route";
-  mapBounds?: MapBounds;
-  illustratedMapAsset?: string;
-  /** Online base map tiles instead of a hand-drawn plate. Requires `mapBounds`. */
-  tileMap?: {
-    source?: "amap" | "osm";
-    /** Pinned zoom; defaults to the largest grid that fits the tile budget. */
-    zoom?: number;
-  };
-  checkpoints: Checkpoint[];
-};
-
-export type StoryProgress = {
-  activeZoneId: string;
-  activeCheckpointId: string;
-  completedCheckpointIds: string[];
-  photoAttempts: Record<string, number>;
-  capturedPhotoIds: string[];
-  phase: "intro" | "map" | "fog" | "finale";
-  zoneStarted: boolean;
-  arrivedCheckpointIds: string[];
-};
 
 export type PositionSample = LatLng & {
   accuracy: number;
@@ -95,6 +29,7 @@ export type RouteMatch = {
 
 export type CapturedPhoto = {
   id: string;
+  /** 属于哪一站 */
   checkpointId: string;
   dataUrl: string;
   score: number;
@@ -107,4 +42,22 @@ export type MatchResult = {
   poseScore: number | null;
   subjectScore: number;
   message: string;
+};
+
+/** 流程停在哪儿。存档会读这个值决定恢复到哪里。 */
+export type Stage = "cover" | "film" | "hunt" | "capture" | "reveal" | "between" | "finale";
+
+export type StoryProgress = {
+  /** 当前第几站（0 起） */
+  index: number;
+  /** 已揭晓的站 id */
+  solvedIds: string[];
+  /** 已经走到过（进入解锁半径）的站 id */
+  arrivedIds: string[];
+  /** 每站拍了几次 */
+  attempts: Record<string, number>;
+  photoIds: string[];
+  stage: Stage;
+  /** 本站是否已经点过"我已到达" */
+  started: boolean;
 };

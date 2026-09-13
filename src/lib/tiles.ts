@@ -45,9 +45,15 @@ function tileCorner(x: number, y: number, zoom: number): LatLng {
   return { latitude, longitude };
 }
 
-function toPlateSpace(point: LatLng, bounds: MapBounds, source: TileSource) {
+function toPlateSpace(
+  point: LatLng,
+  bounds: MapBounds,
+  source: TileSource,
+  plateWidth: number,
+  plateHeight: number,
+) {
   const wgs84 = source.scheme === "gcj02" ? gcj02ToWgs84Approx(point) : point;
-  return projectLocationToBoundsUnclamped(wgs84, bounds);
+  return projectLocationToBoundsUnclamped(wgs84, bounds, plateWidth, plateHeight);
 }
 
 export type PlateTile = {
@@ -61,7 +67,15 @@ export type PlateTile = {
   height: number;
 };
 
-export function tilesForBounds(bounds: MapBounds, sourceId: TileSourceId, zoom: number) {
+export function tilesForBounds(
+  bounds: MapBounds,
+  sourceId: TileSourceId,
+  zoom: number,
+  // 画布尺寸由调用方决定（手机会用竖着的画布）。写死 800×500 会让瓦片
+  // 与同画布里的标记点错位——瓦片铺在中间一条，标记却散在全屏。
+  plateWidth = 800,
+  plateHeight = 500,
+) {
   const source = TILE_SOURCES[sourceId];
   // A tile index is defined in the source's own coordinate system. Mainland
   // providers lay their grid out in GCJ-02, so the bounds must be shifted there
@@ -74,8 +88,8 @@ export function tilesForBounds(bounds: MapBounds, sourceId: TileSourceId, zoom: 
       // Corners are computed per tile rather than by stepping a fixed pixel
       // size: the plate projection is anisotropic, so neighbouring tiles do not
       // share a constant width.
-      const northWest = toPlateSpace(tileCorner(x, y, zoom), bounds, source);
-      const southEast = toPlateSpace(tileCorner(x + 1, y + 1, zoom), bounds, source);
+      const northWest = toPlateSpace(tileCorner(x, y, zoom), bounds, source, plateWidth, plateHeight);
+      const southEast = toPlateSpace(tileCorner(x + 1, y + 1, zoom), bounds, source, plateWidth, plateHeight);
       tiles.push({
         key: `${zoom}/${x}/${y}`,
         url: source.url(zoom, x, y),

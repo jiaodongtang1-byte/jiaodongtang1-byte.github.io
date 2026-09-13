@@ -1,29 +1,31 @@
 import { openDB } from "idb";
 import type { CapturedPhoto, StoryProgress } from "@/src/types";
-import { initialProgress } from "@/src/config/chengduStory";
+import { initialProgress } from "@/src/progress";
 
 const DB_NAME = "exploration-atlas";
 const DB_VERSION = 1;
 
+const STAGES = ["cover", "film", "hunt", "capture", "reveal", "between", "finale"];
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+/** 存档是外部输入（可能来自被改过的 IndexedDB），所以逐字段验一遍再信。 */
 function isStoryProgress(value: unknown): value is StoryProgress {
   if (!value || typeof value !== "object") return false;
-  const candidate = value as Partial<StoryProgress>;
+  const c = value as Partial<StoryProgress>;
   return (
-    typeof candidate.activeZoneId === "string" &&
-    typeof candidate.activeCheckpointId === "string" &&
-    Array.isArray(candidate.completedCheckpointIds) &&
-    candidate.completedCheckpointIds.every((id) => typeof id === "string") &&
-    Boolean(candidate.photoAttempts) &&
-    typeof candidate.photoAttempts === "object" &&
-    Object.values(candidate.photoAttempts ?? {}).every(
-      (attempts) => Number.isInteger(attempts) && Number(attempts) >= 0,
-    ) &&
-    Array.isArray(candidate.capturedPhotoIds) &&
-    candidate.capturedPhotoIds.every((id) => typeof id === "string") &&
-    ["intro", "map", "fog", "finale"].includes(String(candidate.phase)) &&
-    typeof candidate.zoneStarted === "boolean" &&
-    Array.isArray(candidate.arrivedCheckpointIds) &&
-    candidate.arrivedCheckpointIds.every((id) => typeof id === "string")
+    Number.isInteger(c.index) &&
+    Number(c.index) >= 0 &&
+    isStringArray(c.solvedIds) &&
+    isStringArray(c.arrivedIds) &&
+    isStringArray(c.photoIds) &&
+    Boolean(c.attempts) &&
+    typeof c.attempts === "object" &&
+    Object.values(c.attempts ?? {}).every((n) => Number.isInteger(n) && Number(n) >= 0) &&
+    STAGES.includes(String(c.stage)) &&
+    typeof c.started === "boolean"
   );
 }
 
