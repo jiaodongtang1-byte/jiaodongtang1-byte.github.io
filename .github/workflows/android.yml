@@ -1,0 +1,77 @@
+name: Build Android APK
+
+# 只在改动会影响 App 的内容时重建；产物固定挂在 apk-latest 这个 release 上，
+# 下载地址不变，手机端下载或转存都简单。
+on:
+  push:
+    branches: [main]
+    paths:
+      - "android/**"
+      - "src/**"
+      - "app/**"
+      - "public/**"
+      - "index.html"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.ts"
+      - ".github/workflows/android.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the web app
+        run: npm run build
+
+      - name: Stage web assets into the APK
+        run: |
+          mkdir -p android/app/src/main/assets/www
+          cp -r dist/. android/app/src/main/assets/www/
+          du -sh android/app/src/main/assets/www
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Build the APK
+        working-directory: android
+        run: gradle assembleDebug
+
+      - name: Collect the artifact
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk ExplorationAtlas.apk
+          ls -lh ExplorationAtlas.apk
+
+      - name: Publish to the apk-latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-latest
+          name: Exploration Atlas · 安卓安装包
+          body: |
+            内嵌全部素材（离线可用），定位走安卓原生 provider 注入页面。
+            下载后传到手机安装即可；首次安装需允许「安装未知来源应用」。
+          files: ExplorationAtlas.apk
+          make_latest: true
