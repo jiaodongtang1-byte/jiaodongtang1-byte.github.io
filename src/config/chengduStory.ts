@@ -128,73 +128,90 @@ function defineZone(input: ZoneInput): ExplorationZone {
 // 走查完把 passScore 改回 55（参考照拍好之前先不卡分数）。
 const DRY_RUN_PASS_SCORE = 0;
 
-const dryRunCheckpoint = (id: string, label: string, location: LatLng): CheckpointInput => ({
-  id,
-  label,
+// 三站的文案是我代笔的走查稿（作者定稿时直接改这里即可）。
+type DryRunInput = {
+  id: string;
+  label: string;
+  location: LatLng;
+  clue: string;
+  unlockCopy: string;
+  photoPrompt: string;
+};
+
+const dryRunCheckpoint = (input: DryRunInput): CheckpointInput => ({
+  ...input,
   giftType: "sound",
-  location,
-  clue: "占位线索：换成你要给的提示语。",
-  unlockCopy: "占位解锁文案：换成真实的这一关要说什么。",
-  photoPrompt: "复刻学长（制图人）的显影照片。",
   referenceImage: "/references/sound.svg",
   passScore: DRY_RUN_PASS_SCORE,
 });
 
 export const chengduZones: ExplorationZone[] = [
   defineZone({
-    id: "day-tian-jie",
+    id: "xi-er-men",
     order: 1,
-    title: "龙湖时代天街",
+    title: "电子科技大学西二门",
     subtitle: "第一站 · 走查占位",
     mysteryTitle: "第一枚坐标",
     mysterySubtitle: "答案还在雾里",
     accent: "#274554",
     start: {
-      label: "占位起点：天街南侧路面",
-      location: { latitude: 30.7546, longitude: 103.9235 },
+      label: "占位起点：水杉路一侧",
+      location: { latitude: 30.7538, longitude: 103.9225 },
     },
     checkpoints: [
-      dryRunCheckpoint("cd-1", "时代天街 · 待定到达点", {
-        latitude: 30.755514,
-        longitude: 103.923506,
+      dryRunCheckpoint({
+        id: "cd-1",
+        label: "西二门 · 待定到达点",
+        location: { latitude: 30.754716, longitude: 103.921708 },
+        clue: "第一枚坐标在校园西北侧的那道门口。门外是一条热闹的街，门里是水杉路——走到门牌旁边就能看见。",
+        unlockCopy: "你从这里进出过很多次。往后的每一次出发，都会从这个门口开始。",
+        photoPrompt: "站在门牌旁边，拍一张能看清门头和街景的照片，人要在画面里。",
       }),
     ],
   }),
   defineZone({
-    id: "he-yuan",
+    id: "zhu-lou",
     order: 2,
-    title: "成都合院",
+    title: "电子科技大学主楼",
     subtitle: "第二站 · 走查占位",
     mysteryTitle: "第二枚坐标",
     mysterySubtitle: "答案还在雾里",
     accent: "#3f354a",
     start: {
-      label: "占位起点：合院北侧路口",
-      location: { latitude: 30.7468, longitude: 103.9201 },
+      label: "占位起点：中轴线北段",
+      location: { latitude: 30.7504, longitude: 103.9254 },
     },
     checkpoints: [
-      dryRunCheckpoint("cd-2", "成都合院 · 待定到达点", {
-        latitude: 30.745922,
-        longitude: 103.92011,
+      dryRunCheckpoint({
+        id: "cd-2",
+        label: "主楼 · 待定到达点",
+        location: { latitude: 30.749015, longitude: 103.925404 },
+        clue: "第二枚坐标落在学校的中轴线上——那栋远远就能看见屋顶的大楼。走到它正前方，面朝台阶站定。",
+        unlockCopy: "你现在站在它面前了。这条路你走过很多次，今天它只为你一个人亮着。",
+        photoPrompt: "站上台阶，竖构图，让整栋楼和你一起入镜。",
       }),
     ],
   }),
   defineZone({
-    id: "qing-shui-he",
+    id: "nan-men",
     order: 3,
-    title: "电子科技大学清水河校区",
+    title: "电子科技大学南门",
     subtitle: "第三站 · 走查占位",
     mysteryTitle: "第三枚坐标",
     mysterySubtitle: "答案还在雾里",
     accent: "#4c5636",
     start: {
-      label: "占位起点：西源大道一侧",
-      location: { latitude: 30.7494, longitude: 103.9268 },
+      label: "占位起点：校区南段",
+      location: { latitude: 30.75, longitude: 103.9211 },
     },
     checkpoints: [
-      dryRunCheckpoint("cd-3", "清水河校区 · 待定到达点", {
-        latitude: 30.749413,
-        longitude: 103.9277,
+      dryRunCheckpoint({
+        id: "cd-3",
+        label: "南门 · 待定到达点",
+        location: { latitude: 30.74832, longitude: 103.921109 },
+        clue: "最后一枚坐标在南门。出这道门就是西源大道，回头能看见整片校园的轮廓。",
+        unlockCopy: "最后一程不用赶时间。在这里停下来，把这一页慢慢收好。",
+        photoPrompt: "站在门口回身拍一张校园方向的照片。",
       }),
     ],
   }),
