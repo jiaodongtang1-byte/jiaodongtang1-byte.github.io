@@ -264,7 +264,11 @@ const FILM_PAGES: FilmPage[] = [
     eyebrow: "THE KINGDOM WAS WAITING",
     title: "你不是普通人",
     line: "你是遗落在外的公主，王国一直在等你回去。",
-    art: CASTLE,
+    art: (
+      <div className="royal-plate">
+        <img src="/assets/art/princess-terrace.webp" alt="" />
+      </div>
+    ),
   },
   {
     id: "relic",

@@ -20,6 +20,9 @@ import { BACKGROUND_TRACK_SRC, useMagicalSoundscape } from "@/src/hooks/useMagic
 import { useRadarBeeps } from "@/src/hooks/useRadarBeeps";
 import type { CapturedPhoto, ExplorationZone, MatchResult, PositionSample, StoryProgress } from "@/src/types";
 
+/** 终章那张公主插画。公版（Edmund Dulac，PD），来源与授权见 public/assets/art/CREDITS.json */
+const PRINCESS_HOME_ART = "/assets/art/princess-home.webp";
+
 const giftNames = {
   scent: "信物",
   motion: "信物",
@@ -655,7 +658,7 @@ export function ExplorationApp({
           <motion.section className="finale-screen" key="finale" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <div className="finale-generated-rune" aria-hidden="true" />
             <div className="finale-content">
-              <div className="final-heart" aria-hidden="true"><i/><span>♡</span></div><span>YOU ARE HOME</span><h1>Exploration<br/>Completed</h1><blockquote>你到家了。<br/>乐园的灯为你亮起来的时候，所有的星星都排好了队。<br/>从今天起，你可以去任何想去的地方——因为公主本来就该被这样对待。<br/><b>二十七岁生日快乐，我的公主。</b></blockquote>
+              <div className="royal-plate finale-plate"><img src={PRINCESS_HOME_ART} alt="" /></div><span>YOU ARE HOME</span><h1>Exploration<br/>Completed</h1><blockquote>你到家了。<br/>乐园的灯为你亮起来的时候，所有的星星都排好了队。<br/>从今天起，你可以去任何想去的地方——因为公主本来就该被这样对待。<br/><b>二十七岁生日快乐，我的公主。</b></blockquote>
               <div className="gallery-strip">{photos.length ? photos.map((photo) => <button key={photo.id} onClick={() => sharePhoto(photo)}><img src={photo.dataUrl} alt="探索复刻照片"/><span>{photo.score} 分 · 保存</span></button>) : <p>完成照片关卡后，探索相册会出现在这里。</p>}</div>
               {isRehearsalFlow && <button className="secondary-button" onClick={() => resetAll(true)}>重新彩排</button>}
             </div>

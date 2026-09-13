@@ -14,9 +14,10 @@ import type { Checkpoint, ExplorationZone, LatLng, MapBounds, StoryProgress } fr
  *   mapRoutePoints  ← routeGeo 逐点投影
  *   svgPath         ← mapRoutePoints
  *
- * 坐标现状（2026-09-13）：三站是**走查用的近似值**（在高德瓦片网格上量的，误差几十米），
- * 目的是让作者能先真跑一遍流程；地点与实测坐标由作者定稿后替换 location 即可。
- * 现场读坐标的方法见 docs/成都版-现场采集SOP-2026-09-08.md。
+ * 坐标现状（2026-09-13）：三站与三个起点都取自 **OpenStreetMap 实名地物**（WGS-84，
+ * 与运行时同一坐标系），比先前在高德瓦片网格上量的占位值可靠得多——那次南门偏了 262 米，
+ * 而解锁半径只有 30 米。但 OSM 是社区测绘，**不等于现场实测**：
+ * 出发前用 geo-test.html 在三处各站一次，确认精度与落点即可。
  */
 
 // 任务卡悬浮在画面左侧（left 22px，宽 292px），所以内容不能压到左边。
@@ -123,9 +124,9 @@ function defineZone(input: ZoneInput): ExplorationZone {
   };
 }
 
-// ⚠️ 走查用的近似坐标（2026-09-13 建）：从高德瓦片网格上量出来的，误差可能有几十米。
-// 现场实测回来的真值直接换掉下面的 location 即可（配准由 defineZone 推导，不会错位）。
-// 走查完把 passScore 改回 55（参考照拍好之前先不卡分数）。
+// 坐标来源：OpenStreetMap 实名地物（见文件头）。三个起点分别取时代天街 / 时间广场 /
+// 顺江商业广场，是走到各站之前自然会经过的地方；要换直接改 location（配准由 defineZone 推导）。
+// ⚠️ 待办：参考照拍好之后把 passScore 改回 55（现在不卡分数）。
 const DRY_RUN_PASS_SCORE = 0;
 
 // 三站的文案是我代笔的走查稿（作者定稿时直接改这里即可）。
@@ -155,14 +156,14 @@ export const chengduZones: ExplorationZone[] = [
     mysterySubtitle: "答案还在星雾里",
     accent: "#274554",
     start: {
-      label: "占位起点：水杉路一侧",
-      location: { latitude: 30.7538, longitude: 103.9225 },
+      label: "这一程从时代天街开始",
+      location: { latitude: 30.754618, longitude: 103.920084 },
     },
     checkpoints: [
       dryRunCheckpoint({
         id: "cd-1",
         label: "玻璃鞋的落点",
-        location: { latitude: 30.754716, longitude: 103.921708 },
+        location: { latitude: 30.754845, longitude: 103.9218 },   // OSM 西二门 node/2271615612
         clue: "回家的路，从最不起眼的一道门开始。学校西北的那道门口，门外是热闹的街，门里是水杉路——玻璃鞋就藏在门牌附近。",
         unlockCopy: "你在这里进出过很多次，却从不知道这扇门为你留了这么久。第一件信物，玻璃鞋，收好了。",
         photoPrompt: "站在门牌旁边，拍一张能看清门头和街景的照片，人要在画面里。",
@@ -178,14 +179,14 @@ export const chengduZones: ExplorationZone[] = [
     mysterySubtitle: "答案还在星雾里",
     accent: "#3f354a",
     start: {
-      label: "占位起点：中轴线北段",
-      location: { latitude: 30.7504, longitude: 103.9254 },
+      label: "这一程从时间广场开始",
+      location: { latitude: 30.751917, longitude: 103.927456 },
     },
     checkpoints: [
       dryRunCheckpoint({
         id: "cd-2",
         label: "魔镜的落点",
-        location: { latitude: 30.749015, longitude: 103.925404 },
+        location: { latitude: 30.749073, longitude: 103.925117 },  // OSM 主楼 way/687370083
         clue: "第二件信物在中轴线上——那栋远远就能看见屋顶的大楼。走到它正前方，面朝台阶站定。魔镜会告诉你，你真正的样子。",
         unlockCopy: "魔镜说，你一直都是公主，只是今天才有人告诉你。第二件信物，魔镜，收好了。",
         photoPrompt: "站上台阶，竖构图，让整栋楼和你一起入镜。",
@@ -201,14 +202,14 @@ export const chengduZones: ExplorationZone[] = [
     mysterySubtitle: "答案还在星雾里",
     accent: "#4c5636",
     start: {
-      label: "占位起点：校区南段",
-      location: { latitude: 30.75, longitude: 103.9211 },
+      label: "这一程从顺江商业广场开始",
+      location: { latitude: 30.745915, longitude: 103.922402 },
     },
     checkpoints: [
       dryRunCheckpoint({
         id: "cd-3",
         label: "钥匙的落点",
-        location: { latitude: 30.74832, longitude: 103.921109 },
+        location: { latitude: 30.746551, longitude: 103.922913 },  // OSM 南门 node/2271614699
         clue: "最后一件信物在南门。出这道门就是西源大道，回头能看见整片校园的轮廓——钥匙，就在你回头的方向。",
         unlockCopy: "三件信物都齐了。星图已经亮起，乐园的门在等你。",
         photoPrompt: "站在门口回身拍一张校园方向的照片。",

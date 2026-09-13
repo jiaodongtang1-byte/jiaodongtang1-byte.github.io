@@ -2022,3 +2022,47 @@ h1, h2, h3, blockquote, .display-type {
   50% { transform: translateY(-4px) scale(1.04); filter: hue-rotate(272deg) saturate(.88) brightness(1.1) drop-shadow(0 14px 15px #02040cd6) drop-shadow(0 0 14px #9a7fdc99); }
 }
 .intro-film-start i { animation: royalSealAwait 3.2s ease-in-out infinite; }
+
+/* ==========================================================================
+   公主插画（2026-09-13）
+   公版的黄金时代童话插画（Edmund Dulac，已进入公有领域），来源与授权见
+   public/assets/art/CREDITS.json。不做角色还原——那是版权作品，这里用的是
+   迪士尼那套童话视觉的直系祖先。
+   暖色调的画面直接铺在夜空上会打架，所以装进**烫金画框**当书页插图：
+   金框本来就是 App 的既有语言（星盘/花框/勋章），暖色在里面反而成了"一页彩插"。
+   ========================================================================== */
+.royal-plate {
+  position: relative;
+  display: block;
+  padding: 9px;
+  background: linear-gradient(150deg, #16224a, #0a1226);
+  border: 1px solid #b89455;
+  box-shadow: 0 0 0 1px #060a16, 0 0 0 4px #e9c8772e, 0 20px 46px #02040ca6, inset 0 0 30px #060a16cc;
+}
+.royal-plate::after {
+  content: "";
+  position: absolute; inset: 5px;
+  pointer-events: none;
+  border: 1px solid #e9c87759;
+}
+.royal-plate img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  /* 老书页的暖调压一档，深蓝夜空里才不刺眼 */
+  filter: saturate(.86) contrast(1.04) brightness(.94);
+}
+
+/* 短片里那页：别让它顶满，留出夜空 */
+.intro-book-art .royal-plate { width: min(430px, 62vw); }
+.intro-book-art .royal-plate img { max-height: min(44vh, 400px); }
+
+/* 终章那张：竖构图，压在落款上方 */
+.finale-plate { width: min(330px, 62vw); margin: 0 auto 22px; }
+
+@media (max-width: 599px) {
+  .intro-book-art .royal-plate { width: min(300px, 74vw); }
+  .intro-book-art .royal-plate img { max-height: 34vh; }
+  .finale-plate { width: min(240px, 56vw); margin-bottom: 16px; }
+}
