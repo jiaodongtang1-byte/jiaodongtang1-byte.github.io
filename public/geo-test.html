@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>定位自检 · Exploration Atlas</title>
+    <style>
+      body { margin: 0; padding: 16px; background: #0f0d0b; color: #f3ece0;
+             font: 16px/1.7 -apple-system, "Microsoft YaHei", sans-serif; }
+      h1 { font-size: 17px; margin: 0 0 12px; color: #cbbba0; }
+      .row { margin: 4px 0; }
+      .k { color: #9c8f7c; }
+      .ok { color: #7fd18a; } .bad { color: #ff8a8a; } .warn { color: #ffd479; }
+      .big { font-size: 26px; font-weight: 700; letter-spacing: .5px; margin: 14px 0 4px;
+             font-variant-numeric: tabular-nums; }
+      button { margin: 16px 0 8px; padding: 14px 20px; font-size: 16px; border: 0; border-radius: 10px;
+               background: #7a5c33; color: #fff8ec; width: 100%; }
+      pre { white-space: pre-wrap; word-break: break-all; background: #1b1713; padding: 10px;
+            border-radius: 8px; font-size: 12px; color: #b9ab96; }
+      .ua { font-size: 11px; color: #6f6659; word-break: break-all; }
+    </style>
+  </head>
+  <body>
+    <h1>定位自检（Exploration Atlas）</h1>
+    <div class="row"><span class="k">打开方式 protocol：</span><b id="proto">…</b></div>
+    <div class="row"><span class="k">安全上下文 isSecureContext：</span><b id="secure">…</b></div>
+    <div class="row"><span class="k">浏览器提供 geolocation：</span><b id="hasgeo">…</b></div>
+    <div class="row"><span class="k">定位权限状态：</span><b id="perm">…</b></div>
+    <div class="big" id="coords">等待定位…</div>
+    <div class="row"><span class="k">精度：</span><b id="acc">—</b></div>
+    <div class="row"><span class="k">判定：</span><b id="verdict">—</b></div>
+    <div class="row"><span class="k">错误：</span><b id="err" class="bad">—</b></div>
+    <div class="row"><span class="k">已收到定位次数：</span><b id="count">0</b></div>
+    <button id="retry">重新定位</button>
+    <pre id="log"></pre>
+    <div class="ua" id="ua"></div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let count = 0;
+      const log = (text) => { $("log").textContent += new Date().toLocaleTimeString() + "  " + text + "\n"; };
+
+      $("proto").textContent = location.protocol;
+      $("secure").textContent = window.isSecureContext ? "是 ✓" : "否 ✗（此时浏览器会禁用定位）";
+      $("secure").className = window.isSecureContext ? "ok" : "bad";
+      const hasGeo = "geolocation" in navigator;
+      $("hasgeo").textContent = hasGeo ? "是 ✓" : "否 ✗";
+      $("hasgeo").className = hasGeo ? "ok" : "bad";
+      $("ua").textContent = navigator.userAgent;
+
+      if (navigator.permissions && navigator.permissions.query) {
+        navigator.permissions.query({ name: "geolocation" }).then((status) => {
+          $("perm").textContent = status.state;
+          status.onchange = () => { $("perm").textContent = status.state; log("权限状态变为 " + status.state); };
+        }).catch((error) => { $("perm").textContent = "查询失败：" + error.message; });
+      } else {
+        $("perm").textContent = "此浏览器不支持查询";
+      }
+
+      const ERROR_TEXT = {
+        1: "权限被拒绝（code 1）——浏览器或系统拒绝了定位授权",
+        2: "位置不可用（code 2）——浏览器拿不到系统定位源",
+        3: "超时（code 3）——等了 25 秒没有任何定位返回",
+      };
+
+      function onPosition(position) {
+        count += 1;
+        $("count").textContent = count;
+        const { latitude, longitude, accuracy } = position.coords;
+        $("coords").textContent = latitude.toFixed(6) + ", " + longitude.toFixed(6);
+        $("acc").textContent = "±" + Math.round(accuracy) + " 米";
+        $("err").textContent = "—";
+        $("err").className = "ok";
+        if (accuracy <= 15) {
+          $("verdict").textContent = "GPS 可用，精度够 30 米解锁 ✓";
+          $("verdict").className = "ok";
+        } else if (accuracy <= 100) {
+          $("verdict").textContent = "能定位，但精度偏粗（" + Math.round(accuracy) + " 米），到开阔处再等几秒";
+          $("verdict").className = "warn";
+        } else {
+          $("verdict").textContent = "精度 " + Math.round(accuracy) + " 米，这是网络/IP 定位不是 GPS，做不了 30 米解锁 ✗";
+          $("verdict").className = "bad";
+        }
+        log("定位 #" + count + "  ±" + Math.round(accuracy) + " 米");
+      }
+
+      function onError(error) {
+        $("err").textContent = ERROR_TEXT[error.code] || ("错误码 " + error.code + "：" + error.message);
+        $("err").className = "bad";
+        $("acc").textContent = "—";
+        $("verdict").textContent = "拿不到位置 ✗";
+        $("verdict").className = "bad";
+        log("错误 " + error.code + "：" + error.message);
+      }
+
+      function start() {
+        if (!hasGeo) return;
+        $("coords").textContent = "定位中…";
+        navigator.geolocation.watchPosition(onPosition, onError, {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 25000,
+        });
+        log("已发起 watchPosition（高精度）");
+      }
+
+      $("retry").addEventListener("click", () => {
+        $("log").textContent = "";
+        count = 0;
+        $("count").textContent = "0";
+        start();
+      });
+
+      start();
+    </script>
+  </body>
+</html>
