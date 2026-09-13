@@ -898,7 +898,7 @@ h1, h2, h3, blockquote, .display-type {
   background-size: auto, auto, cover;
 }
 .loading-screen::before { content: ""; position: absolute; left: 50%; top: 48%; width: min(690px, 72vw); aspect-ratio: 1672 / 941; transform: translate(-50%, -50%) scale(.94); background: url('/assets/magic/explorer-envelope-open-v3.png') center/contain no-repeat; filter: brightness(.66) sepia(.18) drop-shadow(0 28px 42px #050201); opacity: .82; animation: loadingEnvelopeBreathe 2.8s ease-in-out infinite; }
-.loading-screen::after { content: "PRIVATE DELIVERY · HANGZHOU"; position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); letter-spacing: .28em; font-size: 8px; color: #b99355; }
+.loading-screen::after { content: "OCT 9 · 2026 · FOR THE PRINCESS"; position: absolute; left: 50%; bottom: 8%; transform: translateX(-50%); letter-spacing: .28em; font-size: 8px; color: #b99355; }
 .loading-screen .ink-loader { position: relative; z-index: 2; width: 78px; height: 78px; margin-top: 18vh; background: url('/assets/magic/exploration-wax-seal-v3.png') center/contain no-repeat; filter: drop-shadow(0 8px 10px #160806) drop-shadow(0 0 8px #dba9545e); animation: loadingSealPulse 2.2s ease-in-out infinite; }
 .loading-screen p { position: relative; z-index: 2; margin: -4px 0 0; color: #ead19b; letter-spacing: .14em; font-size: 11px; text-shadow: 0 2px 7px #080302; }
 
@@ -1748,8 +1748,7 @@ h1, h2, h3, blockquote, .display-type {
   color: var(--moon);
 }
 .loading-screen::before { filter: hue-rotate(196deg) saturate(.5) brightness(.74) drop-shadow(0 28px 42px #02040c); }
-/* 这里原来写的是 "PRIVATE DELIVERY · HANGZHOU" —— 杭州版残留，用户看得见，一并换掉 */
-.loading-screen::after { content: "OCT 9 · 2026 · FOR THE PRINCESS"; color: var(--star); }
+.loading-screen::after { color: var(--star); }
 .loading-screen .ink-loader { filter: hue-rotate(190deg) saturate(.62) drop-shadow(0 8px 10px #02040c) drop-shadow(0 0 10px #e9c8776b); }
 .loading-screen p { color: var(--moon-soft); text-shadow: 0 2px 7px #02040c; }
 
