@@ -14,7 +14,8 @@ import type { Checkpoint, ExplorationZone, LatLng, MapBounds, StoryProgress } fr
  *   mapRoutePoints  ← routeGeo 逐点投影
  *   svgPath         ← mapRoutePoints
  *
- * 待填：把下面三个 zone 的占位坐标（都在天府广场一带）换成现场实测值。
+ * 坐标现状（2026-09-13）：三站是**走查用的近似值**（在高德瓦片网格上量的，误差几十米），
+ * 目的是让作者能先真跑一遍流程；地点与实测坐标由作者定稿后替换 location 即可。
  * 现场读坐标的方法见 docs/成都版-现场采集SOP-2026-09-08.md。
  */
 
@@ -122,21 +123,21 @@ function defineZone(input: ZoneInput): ExplorationZone {
   };
 }
 
-const placeholder = (offset: number): LatLng => ({
-  // 占位：天府广场一带，待现场实测替换
-  latitude: 30.657 + offset,
-  longitude: 104.0657,
-});
+// ⚠️ 走查用的近似坐标（2026-09-13 建）：从高德瓦片网格上量出来的，误差可能有几十米。
+// 现场实测回来的真值直接换掉下面的 location 即可（配准由 defineZone 推导，不会错位）。
+// 走查完把 passScore 改回 55（参考照拍好之前先不卡分数）。
+const DRY_RUN_PASS_SCORE = 0;
 
-const placeholderCheckpoint = (id: string, label: string): CheckpointInput => ({
+const dryRunCheckpoint = (id: string, label: string, location: LatLng): CheckpointInput => ({
   id,
   label,
   giftType: "sound",
-  location: placeholder(0),
+  location,
   clue: "占位线索：换成你要给的提示语。",
   unlockCopy: "占位解锁文案：换成真实的这一关要说什么。",
   photoPrompt: "复刻学长（制图人）的显影照片。",
   referenceImage: "/references/sound.svg",
+  passScore: DRY_RUN_PASS_SCORE,
 });
 
 export const chengduZones: ExplorationZone[] = [
@@ -144,34 +145,58 @@ export const chengduZones: ExplorationZone[] = [
     id: "day-tian-jie",
     order: 1,
     title: "龙湖时代天街",
-    subtitle: "第一站 · 占位待填",
+    subtitle: "第一站 · 走查占位",
     mysteryTitle: "第一枚坐标",
     mysterySubtitle: "答案还在雾里",
     accent: "#274554",
-    start: { label: "占位起点：时代天街某个门口", location: placeholder(0.0004) },
-    checkpoints: [placeholderCheckpoint("cd-1", "占位·时代天街某处")],
+    start: {
+      label: "占位起点：天街南侧路面",
+      location: { latitude: 30.7546, longitude: 103.9235 },
+    },
+    checkpoints: [
+      dryRunCheckpoint("cd-1", "时代天街 · 待定到达点", {
+        latitude: 30.755514,
+        longitude: 103.923506,
+      }),
+    ],
   }),
   defineZone({
     id: "he-yuan",
     order: 2,
     title: "成都合院",
-    subtitle: "第二站 · 占位待填",
+    subtitle: "第二站 · 走查占位",
     mysteryTitle: "第二枚坐标",
     mysterySubtitle: "答案还在雾里",
     accent: "#3f354a",
-    start: { label: "占位起点：合院某个门", location: placeholder(0.0012) },
-    checkpoints: [placeholderCheckpoint("cd-2", "占位·合院某处")],
+    start: {
+      label: "占位起点：合院北侧路口",
+      location: { latitude: 30.7468, longitude: 103.9201 },
+    },
+    checkpoints: [
+      dryRunCheckpoint("cd-2", "成都合院 · 待定到达点", {
+        latitude: 30.745922,
+        longitude: 103.92011,
+      }),
+    ],
   }),
   defineZone({
     id: "qing-shui-he",
     order: 3,
     title: "电子科技大学清水河校区",
-    subtitle: "第三站 · 占位待填",
+    subtitle: "第三站 · 走查占位",
     mysteryTitle: "第三枚坐标",
     mysterySubtitle: "答案还在雾里",
     accent: "#4c5636",
-    start: { label: "占位起点：校区某个门", location: placeholder(0.002) },
-    checkpoints: [placeholderCheckpoint("cd-3", "占位·清水河校区某处")],
+    start: {
+      label: "占位起点：西源大道一侧",
+      location: { latitude: 30.7494, longitude: 103.9268 },
+    },
+    checkpoints: [
+      dryRunCheckpoint("cd-3", "清水河校区 · 待定到达点", {
+        latitude: 30.749413,
+        longitude: 103.9277,
+      }),
+    ],
   }),
 ];
 
