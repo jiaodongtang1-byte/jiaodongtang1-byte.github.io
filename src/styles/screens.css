@@ -65,11 +65,14 @@
    反相会变成夜图、和柔光天打架。
    压掉饱和是主戏——不压的话瓦片自带的草绿和高速橙会跟粉紫打架，
    压成近乎单色之后，上面那层 mapWash 才能把它染成同一个色系。 */
-.hunt-tile { filter: saturate(.30) brightness(1.04) contrast(1.16); }
+/* 瓦片本身不加 CSS filter。WebKit 给整组瓦片做滤镜时，会把结果光栅化成一张
+   固定尺寸的贴图，iPhone 的 3x 屏一超出就把某个角放大成一团模糊色块——
+   Chromium 不复现，只有在真机上才看得见。染色全部交给下面那层 wash。 */
 /* 染色走 mix-blend-mode: color，不是盖一层半透明色——
    color 只接管色相与饱和、保留瓦片自己的明度，路网结构原样留住；
-   盖半透明色会把明度一起抬平，路就糊成一片奶油色，好看但没法认路。 */
-.hunt-wash { mix-blend-mode: color; opacity: .92; }
+   盖半透明色会把明度一起抬平，路就糊成一片奶油色，好看但没法认路。
+   opacity 必须为 1：带上一点透明度就会有残余的瓦片本色（公园的绿）透上来。 */
+.hunt-wash { mix-blend-mode: color; }
 .hunt-wash, .hunt-vignette { pointer-events: none; }
 
 /* 路线：白底描边保证压在任何瓦片上都能读，上面走玫瑰色虚线 */

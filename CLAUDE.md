@@ -92,6 +92,10 @@ npm run lint && npm test       # tsc + 单测 + 构建 + PWA 契约
 - ⚠️ **跑 e2e 前先把 `.certs/` 挪走**，否则 `vite preview` 走 https、playwright 配的是
   `http://127.0.0.1:4187`，会全挂并报 `Server returned nothing`。跑完挪回来。
 - 本机 Windows WebKit 多数情况可信（改版后 6/6 通过），但 CI 仍是权威。
+- ⚠️ **改过地图或任何 SVG 视觉之后，e2e 全绿也不算数**——e2e 只断言元素在不在、尺不对不对，
+  看不见渲染糊成一团。要按真机条件再拍一张：`webkit` 引擎 + `devices["iPhone 13"]`（3x 屏）
+  + 等 8 秒让瓦片加载完，然后**看**图。上面那条 WebKit 滤镜 bug 就是这么才发现的，
+  Chromium 与全部单测/e2e 都是绿的。
 - `public/geo-test.html` 是现场读坐标的工具，`phone.spec.ts` 里有一条断言盯着它必须进 dist。
 
 ## 踩过的坑（改前先看）
@@ -102,8 +106,13 @@ npm run lint && npm test       # tsc + 单测 + 构建 + PWA 契约
   **新加的装饰层记得排进 `theme.css` 末尾那张分层表**——`.ground` 当初漏了，把城堡整个盖住了。
 - **染色用 `mix-blend-mode: color`，不要盖半透明色块**。`color` 只接管色相与饱和、保留瓦片
   自己的明度，路网结构原样留住；盖半透明色会把明度一起抬平，路就糊成一片奶油色。
-  用它时**渐变 stop 必须不透明**——stop 带 alpha 会被当成普通半透明覆盖，瓦片自己的绿色
-  （公园、草地）就透上来了，怎么调都压不干净。
+  用它时**渐变 stop 必须不透明、元素 opacity 必须是 1**——沾上一点透明度就会被当成普通
+  半透明覆盖，瓦片自己的绿色（公园、草地）透上来，怎么调都压不干净。
+- **⚠️ 千万不要给整组瓦片套 CSS `filter`**（`.hunt-tile`）。WebKit 会把滤镜结果光栅化成
+  一张固定尺寸的贴图，iPhone 的 3x 屏一超限，就有个角落被放大成一团模糊色块（看着像张
+  贴歪的照片）。**Chromium 完全不复现**——只有 WebKit 才看得见，所以本机 Chromium 走查
+  和 e2e 都拦不住它，`npm run preview` 之后必须用 `webkit` 跑一遍才知道有没有。
+  染色全部交给 wash 那层就够了，不需要滤镜。
 - **`opacity: 0` 对读屏和自动化都仍算「可见」**。绘本未翻到的页要 `visibility: hidden`。
 - **关键帧里带 `filter` 的动画会盖掉静态 `filter`**，给元素转色时要连 `animation` 一起换。
 - **玻璃鞋的 SVG 侧影试了九稿才读得出是鞋**——改 `src/kit/Relic.tsx` 里那段 path 前先单独渲染看一眼。
