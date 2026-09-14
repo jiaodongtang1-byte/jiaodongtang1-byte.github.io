@@ -115,6 +115,11 @@ npm run lint && npm test       # tsc + 单测 + 构建 + PWA 契约
   染色全部交给 wash 那层就够了，不需要滤镜。
 - **`opacity: 0` 对读屏和自动化都仍算「可见」**。绘本未翻到的页要 `visibility: hidden`。
 - **关键帧里带 `filter` 的动画会盖掉静态 `filter`**，给元素转色时要连 `animation` 一起换。
+- **SVG 元素上写 `transform: scale()` 的动画，必须同时给 `transform-box: fill-box`**。
+  SVG 子元素的 `transform-origin` 默认按 **viewBox** 解析而不是元素自身，只写 `center`
+  会绕画布中心缩放：信标在画布边上时，扩散圈被甩到几百像素外（实测信标在 `[90,171]`，
+  圈跑到 `[-125,-194]`，直接飞出屏幕）。加 `transform-box: fill-box` 后 `center`
+  才指元素自己的盒子。地图上那几个会 pulse 的圈都踩过这个。
 - **玻璃鞋的 SVG 侧影试了九稿才读得出是鞋**——改 `src/kit/Relic.tsx` 里那段 path 前先单独渲染看一眼。
 - **城堡的塔要宽大于高**，早先塔瘦窗大，整座城读起来像一排栅栏。
 - **奶白城堡压在奶油色天上会整个化掉**。亮色主题下塔身要用比天空深一档的淡紫 +
