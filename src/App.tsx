@@ -299,7 +299,7 @@ export default function App({ namespace }: Props) {
 
       {toast && (
         <div className="veil-screen" style={{ zIndex: 90 }} onClick={() => setToast(null)}>
-          <p style={{ color: "var(--moon)" }}>{toast}</p>
+          <p style={{ color: "var(--ink)" }}>{toast}</p>
         </div>
       )}
     </div>

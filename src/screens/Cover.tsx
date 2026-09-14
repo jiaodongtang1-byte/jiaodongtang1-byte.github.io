@@ -21,6 +21,7 @@ export function Cover({ onStart, opening, ready }: Props) {
     <section className={`screen cover ${opening ? "is-opening" : ""}`} aria-label="邀请函">
       <Sky stars={64} dust={8} />
       <div className="cover-fireworks"><Fireworks /></div>
+      <div className="ground" aria-hidden="true" />
       <Castle className="cover-castle" />
 
       <div className="cover-letter">

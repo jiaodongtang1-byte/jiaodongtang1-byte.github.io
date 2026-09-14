@@ -146,7 +146,7 @@ export function Storybook({ onDone }: { onDone: () => void }) {
         <div className="screen screen-center" style={{ position: "absolute", inset: 0, zIndex: 5 }}>
           <span className="eyebrow">A ROYAL LETTER · FOR THE PRINCESS</span>
           <h2 style={{ fontSize: "clamp(24px, 4.6vw, 44px)" }}>城堡托我们带一句话给你</h2>
-          <p style={{ color: "var(--mist)", maxWidth: "30em" }}>点击后有声音，也可以随时跳过。</p>
+          <p style={{ color: "var(--ink-soft)", maxWidth: "30em" }}>点击后有声音，也可以随时跳过。</p>
           <button className="btn" type="button" onClick={play}>接收邀请</button>
         </div>
       )}

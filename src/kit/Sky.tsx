@@ -12,6 +12,8 @@ function seeded(seed: number) {
 type Props = {
   /** 星星数量 */
   stars?: number;
+  /** 云朵数量；0 = 不画云 */
+  clouds?: number;
   /** 仙尘光点数量；0 = 不画仙尘（成绩页等静态场合用） */
   dust?: number;
   seed?: number;
@@ -19,11 +21,11 @@ type Props = {
 };
 
 /**
- * 夜空背景：星点 + 一道斜着划过的仙尘。
+ * 柔光天：几团云 + 柔光星点 + 一道斜着划过的仙尘。
  * 全站所有屏幕共用这一层，换屏时不重建，所以星星不会重跳。
  */
-export function Sky({ stars = 58, dust = 10, seed = 20261009, className = "" }: Props) {
-  const { starList, dustList } = useMemo(() => {
+export function Sky({ stars = 58, clouds = 5, dust = 10, seed = 20261009, className = "" }: Props) {
+  const { starList, cloudList, dustList } = useMemo(() => {
     const rand = seeded(seed);
     const starList = Array.from({ length: stars }, (_, index) => ({
       left: rand() * 100,
@@ -39,8 +41,15 @@ export function Sky({ stars = 58, dust = 10, seed = 20261009, className = "" }: 
       dy: -(18 + rand() * 24),
       delay: -(index * 1.35 + rand()),
     }));
-    return { starList, dustList };
-  }, [stars, dust, seed]);
+    const cloudList = Array.from({ length: clouds }, () => ({
+      left: -14 + rand() * 120,
+      top: 4 + rand() * 62,
+      width: 120 + rand() * 210,
+      height: 52 + rand() * 62,
+      delay: -rand() * 40,
+    }));
+    return { starList, cloudList, dustList };
+  }, [stars, clouds, dust, seed]);
 
   return (
     <div className={`sky ${className}`.trim()} aria-hidden="true">
@@ -54,6 +63,19 @@ export function Sky({ stars = 58, dust = 10, seed = 20261009, className = "" }: 
             width: `${star.size}px`,
             height: `${star.size}px`,
             animationDelay: `${star.delay}s`,
+          }}
+        />
+      ))}
+      {cloudList.map((cloud, index) => (
+        <i
+          key={`c${index}`}
+          className="sky-cloud"
+          style={{
+            left: `${cloud.left}%`,
+            top: `${cloud.top}%`,
+            width: `${cloud.width}px`,
+            height: `${cloud.height}px`,
+            animationDelay: `${cloud.delay}s`,
           }}
         />
       ))}

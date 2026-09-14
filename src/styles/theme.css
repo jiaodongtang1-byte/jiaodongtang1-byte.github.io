@@ -1,48 +1,53 @@
 /* ==========================================================================
-   魔法城堡 · 设计令牌与基础样式（2026-09-13 从头重写）
-   全站唯一一份样式。没有覆盖层、没有第二套配色、没有历史遗留的暖色。
-   深色优先：所有颜色先按夜空定义，不存在"浅色版"。
+   魔法城堡 · 设计令牌与基础样式（2026-09-14 改为明亮公主风）
+   全站唯一一份样式。没有覆盖层、没有第二套配色。
+   **亮色优先**：面是柔光天，字是深紫。浅底深字在户外日光下比深色更清楚。
    ========================================================================== */
 
 :root {
-  /* 夜空：由深到浅的四层"面" */
-  --sky-0: #060a1a;
-  --sky-1: #0d1430;
-  --sky-2: #16204a;
-  --sky-3: #212d63;
+  /* 天：从远处天蓝过渡到近处奶油，像日出前的柔光 */
+  --sky-0: #b9d5ff;
+  --sky-1: #dcc9ff;
+  --sky-2: #ffd8ea;
+  --sky-3: #fff2da;
 
-  /* 光：金是主光，粉与青是烟花与仙尘 */
-  --gold: #f2d489;
-  --gold-dim: #b9944c;
-  --gold-deep: #7a5f28;
-  --rose: #ff9ec4;
-  --mint: #7fe0d0;
-  --royal: #6d4bb5;
-  --royal-lift: #a184e0;
+  /* 面：卡片一律半透明白，压在柔光天上 */
+  --panel: #ffffffd9;
+  --panel-solid: #fffaf7;
 
-  /* 字：月白为正文，雾蓝为次要 */
-  --moon: #fdf6e6;
-  --mist: #b3bfe4;
-  --veil: #7b88b5;
+  /* 光：金在浅底上要压深才看得见；粉与紫是主色 */
+  --gold: #d1922a;
+  --gold-soft: #f0c265;
+  --gold-deep: #a86f14;
+  --rose: #ff7fb0;
+  --rose-soft: #ffd0e2;
+  --violet: #a06fdc;
+  --violet-deep: #8a4fc0;
+  --violet-lift: #bd93e8;
+  --mint: #5ec9bb;
+
+  /* 字：深紫为正文，越次要越浅 */
+  --ink: #4a3162;
+  --ink-soft: #77618e;
+  --ink-veil: #a291b8;
 
   /* 线 */
-  --line: #33406f;
-  --line-lit: #4a5a92;
+  --line: #e7d3ee;
+  --line-lit: #d3a8dd;
 
-  /* 尺寸与节奏 */
-  --r-sm: 4px;
-  --r-md: 10px;
-  --r-lg: 18px;
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
   --pad-screen: clamp(16px, 4vw, 40px);
-  --shadow-deep: 0 24px 70px #02040fb3;
-  --shadow-lift: 0 10px 30px #02040f80;
+  --shadow-deep: 0 22px 60px #7a4f9a2e;
+  --shadow-lift: 0 8px 24px #7a4f9a24;
 
   --font-body: "Atlas Serif SC", "Songti SC", "STSong", serif;
   --font-display: "Atlas Display", "Atlas Serif SC", "Songti SC", serif;
   --font-inscription: "Atlas Inscription", "Atlas Serif SC", serif;
 
   --ease-soft: cubic-bezier(.22, .8, .3, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -51,8 +56,8 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  color: var(--moon);
-  background: var(--sky-0);
+  color: var(--ink);
+  background: #f6ecff;
   font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.7;
@@ -68,7 +73,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 img, svg { display: block; max-width: 100%; }
 blockquote { margin: 0; }
 
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; }
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
@@ -76,7 +81,7 @@ blockquote { margin: 0; }
 }
 
 /* ==========================================================================
-   积木 1 · 夜空
+   积木 1 · 柔光天
    ========================================================================== */
 
 .sky {
@@ -84,51 +89,69 @@ blockquote { margin: 0; }
   inset: 0;
   overflow: hidden;
   background:
-    radial-gradient(ellipse 120% 80% at 50% 108%, #2a1f5e 0%, transparent 62%),
-    radial-gradient(ellipse 90% 60% at 50% 0%, #1a2350 0%, transparent 70%),
-    linear-gradient(180deg, var(--sky-0) 0%, var(--sky-1) 55%, #0a0f26 100%);
+    radial-gradient(ellipse 100% 70% at 50% 4%, #fff6e0 0%, transparent 58%),
+    radial-gradient(ellipse 120% 80% at 16% 96%, #ffd2e6 0%, transparent 62%),
+    radial-gradient(ellipse 120% 80% at 86% 88%, #cfe0ff 0%, transparent 62%),
+    linear-gradient(168deg, var(--sky-0) 0%, var(--sky-1) 36%, var(--sky-2) 70%, var(--sky-3) 100%);
 }
 
-/* 星星分两批，用不同周期闪，避免整齐划一 */
-.sky-star { position: absolute; border-radius: 50%; background: #fff8e0; animation: starBreath 4.2s ease-in-out infinite; }
-.sky-star.is-far { background: #cdd8ff; animation-duration: 6.4s; }
+/* 星点换成柔光星芒：浅底上白点看不见，要发光才有梦幻感 */
+.sky-star { position: absolute; border-radius: 50%; background: #fff; box-shadow: 0 0 8px 2px #fff8e0cc; animation: starBreath 4.6s ease-in-out infinite; }
+.sky-star.is-far { background: #ffe9f6; box-shadow: 0 0 10px 3px #ffd0eccc; animation-duration: 6.8s; }
 
-@keyframes starBreath { 0%, 100% { opacity: .28; } 48% { opacity: 1; } }
+@keyframes starBreath { 0%, 100% { opacity: .3; transform: scale(.8); } 48% { opacity: 1; transform: scale(1.15); } }
 
-/* 仙尘：一条从左下划到右上的弧，光点沿途明灭 */
+/* 云：几团虚化的白，慢慢横移 */
+.sky-cloud { position: absolute; border-radius: 50%; background: #ffffff; opacity: .75; filter: blur(18px); box-shadow: 0 10px 40px #ffffff; animation: cloudDrift 60s ease-in-out infinite alternate; }
+@keyframes cloudDrift { 0% { transform: translateX(-4vw); } 100% { transform: translateX(6vw); } }
+
+/* 仙尘：粉金的光点，沿弧线明灭 */
 .sky-dust { position: absolute; inset: 0; pointer-events: none; }
 .sky-dust i {
   position: absolute;
-  width: 4px; height: 4px;
+  width: 5px; height: 5px;
   border-radius: 50%;
-  background: #fff3c4;
-  box-shadow: 0 0 10px #ffe9a8cc, 0 0 22px #7fe0d066;
+  background: #fff;
+  box-shadow: 0 0 10px 3px #ffd98acc, 0 0 20px 6px #ffc2e066;
   opacity: 0;
-  animation: dustDrift 9s linear infinite;
+  animation: dustDrift 10s linear infinite;
 }
 
 @keyframes dustDrift {
   0% { opacity: 0; transform: translate(0, 0) scale(.4); }
-  12% { opacity: .9; }
-  70% { opacity: .55; }
-  100% { opacity: 0; transform: translate(var(--dx, 18vw), var(--dy, -22vh)) scale(1); }
+  14% { opacity: .95; }
+  70% { opacity: .6; }
+  100% { opacity: 0; transform: translate(var(--dx, 18vw), var(--dy, -22vh)) scale(1.15); }
 }
 
 /* ==========================================================================
-   积木 2 · 城堡与烟花（迪士尼的招牌画面）
+   积木 2 · 城堡与烟花
    ========================================================================== */
 
-.castle { width: 100%; height: auto; overflow: visible; }
-.castle-body { fill: #101838; stroke: var(--gold); stroke-width: 1.6; stroke-linejoin: round; }
-.castle-lit { fill: var(--gold); opacity: .9; }
-.castle-window { fill: #ffd98a; opacity: .85; animation: windowGlow 5.2s ease-in-out infinite; }
+/* 城堡：浅底上"奶白城堡"会整个化掉——白塔压奶油天等于隐形。
+   所以塔身用淡紫（比天空深一档），描边加重，再垫一层柔影把它托起来。 */
+.castle { width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 14px 26px #7a4f9a3d); }
+.castle-body { fill: #efe2ff; stroke: #8a4fc0; stroke-width: 2.6; stroke-linejoin: round; }
+.castle-roof { fill: #ff9ec9; stroke: #d4558f; stroke-width: 2.6; stroke-linejoin: round; }
+.castle-lit { fill: var(--gold); opacity: .95; }
+.castle-window { fill: #ffc94d; stroke: #c9852a; stroke-width: 1; animation: windowGlow 5.2s ease-in-out infinite; }
 .castle-window.is-dim { animation-duration: 7.6s; animation-delay: -2.4s; }
-.castle-flag { fill: var(--rose); opacity: .9; }
+.castle-flag { fill: #ff7fb0; opacity: .95; }
 
-@keyframes windowGlow { 0%, 100% { opacity: .45; } 45% { opacity: 1; } }
+/* 城堡脚下的柔坡：没有它，城堡像浮在半空 */
+.ground {
+  position: absolute;
+  left: -10%; right: -10%; bottom: 0;
+  height: 18vh;
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(ellipse at 50% 0%, #d9c2f5 0%, #cbb0ef 62%, #bda0e8 100%);
+  opacity: .85;
+}
 
-/* 每一朵是**一个零尺寸的点**，射线从这一点往外发；缩放也就绕着这一点做。
-   早先把 .firework 铺满整屏、transform-origin 用百分比，结果缩放绕的是屏幕中心，
+@keyframes windowGlow { 0%, 100% { opacity: .5; } 45% { opacity: 1; } }
+
+/* 烟花：每一朵是一个零尺寸的点，射线从这一点往外发。
+   早先把 .firework 铺满整屏、transform-origin 用百分比，缩放绕的是屏幕中心，
    烟花散成了一圈虚线点。 */
 .firework {
   position: absolute;
@@ -142,8 +165,8 @@ blockquote { margin: 0; }
   left: -1.5px; top: -1.5px;
   width: 3px; height: 3px;
   border-radius: 50%;
-  background: var(--fc, #ffd98a);
-  box-shadow: 0 0 9px var(--fc, #ffd98a);
+  background: var(--fc, #ff9ec4);
+  box-shadow: 0 0 8px 2px var(--fc, #ff9ec4);
 }
 .firework-ring {
   position: absolute;
@@ -162,25 +185,25 @@ blockquote { margin: 0; }
   100% { opacity: 0; transform: scale(1.9); }
 }
 @keyframes fireworkRing {
-  0% { opacity: .8; transform: scale(1); }
-  60% { opacity: .25; transform: scale(26); }
+  0% { opacity: .55; transform: scale(1); }
+  60% { opacity: .18; transform: scale(26); }
   100% { opacity: 0; transform: scale(34); }
 }
 
 /* ==========================================================================
-   积木 3 · 烫金画框 / 印章 / 按钮
+   积木 3 · 画框 / 印章 / 按钮
    ========================================================================== */
 
 .plate {
   position: relative;
   display: block;
   padding: 8px;
-  background: linear-gradient(150deg, var(--sky-2), var(--sky-0));
-  border: 1px solid var(--gold-dim);
-  box-shadow: 0 0 0 1px var(--sky-0), 0 0 0 4px #f2d4892e, var(--shadow-deep);
+  background: linear-gradient(150deg, #fff8ff, #ffeef8);
+  border: 1px solid var(--gold-soft);
+  box-shadow: 0 0 0 1px #fff, 0 0 0 5px #f0c26540, var(--shadow-deep);
 }
-.plate::after { content: ""; position: absolute; inset: 4px; pointer-events: none; border: 1px solid #f2d48959; }
-.plate > img { width: 100%; height: auto; filter: saturate(.88) contrast(1.05) brightness(.95); }
+.plate::after { content: ""; position: absolute; inset: 4px; pointer-events: none; border: 1px solid #e0a83c66; }
+.plate > img { width: 100%; height: auto; }
 
 /* 火漆印：纯 CSS 画，不依赖位图 */
 .seal {
@@ -189,21 +212,21 @@ blockquote { margin: 0; }
   place-items: center;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle at 34% 28%, var(--royal-lift), var(--royal) 52%, #2a1a52);
-  border: 2px solid #1d1238;
-  box-shadow: 0 8px 20px #02040fcc, 0 0 26px #a184e059, inset 0 -8px 14px #1a0f3a99, inset 0 7px 12px #ffffff30;
-  color: var(--gold);
+  background: radial-gradient(circle at 34% 28%, #ffc2dd, #f08ab8 48%, #d4649a);
+  border: 2px solid #fff;
+  box-shadow: 0 8px 20px #a04a7a33, 0 0 0 4px #ffd7ea, inset 0 -6px 12px #b8548a44, inset 0 6px 10px #ffffff8c;
+  color: #fff;
 }
 .seal::after {
   content: "";
   position: absolute;
   inset: 14%;
   border-radius: 50%;
-  border: 1px dashed #f2d48970;
+  border: 1px dashed #ffffffb3;
 }
-.seal svg { width: 46%; height: 46%; }
+.seal svg { width: 46%; height: 46%; filter: drop-shadow(0 1px 1px #b8548a66); }
 
-/* 主按钮：王冠紫 + 金边 */
+/* 主按钮：粉紫渐变 + 白字（对比度按 15px 正文压到 AA 以上） */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -212,57 +235,52 @@ blockquote { margin: 0; }
   min-height: 48px;
   padding: 12px 26px;
   border-radius: 999px;
-  border: 1px solid var(--gold-dim);
-  background: linear-gradient(180deg, var(--royal-lift), var(--royal) 58%, #4a2f8a);
-  color: var(--moon);
+  border: 1px solid #ffffffb3;
+  background: linear-gradient(180deg, var(--violet-lift), var(--violet-deep) 58%, #7a3fae);
+  color: #fff;
   font-size: 15px;
   letter-spacing: .04em;
-  box-shadow: 0 8px 22px #02040f99, inset 0 1px 0 #ffffff3d;
+  box-shadow: 0 8px 20px #8a4fc04d, inset 0 1px 0 #ffffff59;
   transition: transform .18s var(--ease-soft), filter .18s ease, box-shadow .18s ease;
 }
-.btn:hover { filter: brightness(1.08); box-shadow: 0 10px 26px #02040fb3, 0 0 20px #a184e04d, inset 0 1px 0 #ffffff4d; }
+.btn:hover { filter: brightness(1.07); box-shadow: 0 10px 24px #8a4fc066, inset 0 1px 0 #ffffff73; }
 .btn:active { transform: translateY(1px) scale(.985); }
 .btn:disabled { opacity: .55; cursor: progress; }
-.btn.is-quiet {
-  background: linear-gradient(180deg, var(--sky-3), var(--sky-2));
-  border-color: var(--line-lit);
-  box-shadow: var(--shadow-lift);
-}
-.btn.is-ghost { background: none; border-color: var(--line); color: var(--mist); }
+.btn.is-quiet { background: #fff; border-color: var(--line-lit); color: var(--ink); box-shadow: var(--shadow-lift); }
+.btn.is-ghost { background: #ffffffb3; border-color: var(--line-lit); color: var(--ink-soft); }
 .btn.is-wide { width: 100%; }
 
-/* 小标签 */
 .eyebrow {
   display: block;
   font-family: var(--font-inscription);
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: .32em;
+  letter-spacing: .3em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--violet-deep);
 }
 
 /* ==========================================================================
-   积木 4 · 罗盘表盘（雷达）
+   积木 4 · 罗盘表盘
    ========================================================================== */
 
-.dial { position: relative; flex: 0 0 auto; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line-lit); background: radial-gradient(circle at 50% 50%, #ffffff1c, #ffffff05 72%); }
-.dial-ring { position: absolute; border-radius: 50%; border: 1px dashed #f2d48959; }
+.dial { position: relative; flex: 0 0 auto; aspect-ratio: 1; border-radius: 50%; border: 1px solid var(--line-lit); background: radial-gradient(circle at 50% 40%, #fff, #ffeaf5 74%); }
+.dial-ring { position: absolute; border-radius: 50%; border: 1px dashed #d3a8dd99; }
 .dial-ring.a { inset: 8%; }
-.dial-ring.b { inset: 30%; border-style: solid; border-color: #f2d4892e; }
-.dial-core { position: absolute; left: 50%; top: 50%; width: 9%; aspect-ratio: 1; margin: -4.5% 0 0 -4.5%; border-radius: 50%; background: var(--gold); box-shadow: 0 0 10px #f2d489a6; }
+.dial-ring.b { inset: 30%; border-style: solid; border-color: #d3a8dd59; }
+.dial-core { position: absolute; left: 50%; top: 50%; width: 9%; aspect-ratio: 1; margin: -4.5% 0 0 -4.5%; border-radius: 50%; background: var(--rose); box-shadow: 0 0 10px #ff7fb099; }
 .dial-needle {
   position: absolute; left: 50%; bottom: 50%;
   width: 3px; height: 42%;
   margin-left: -1.5px;
   transform-origin: 50% 100%;
-  background: linear-gradient(180deg, var(--gold), var(--rose) 70%, transparent);
+  background: linear-gradient(180deg, var(--violet-deep), var(--rose) 70%, transparent);
   clip-path: polygon(50% 0, 100% 84%, 50% 100%, 0 84%);
   transition: transform .25s ease-out;
 }
-.dial-pulse { position: absolute; inset: 8%; border-radius: 50%; border: 2px solid var(--gold); animation: dialPulse 1s ease-out infinite; }
+.dial-pulse { position: absolute; inset: 8%; border-radius: 50%; border: 2px solid var(--rose); animation: dialPulse 1s ease-out infinite; }
 
-@keyframes dialPulse { 0% { transform: scale(.74); opacity: .85; } 100% { transform: scale(1.06); opacity: 0; } }
+@keyframes dialPulse { 0% { transform: scale(.74); opacity: .8; } 100% { transform: scale(1.06); opacity: 0; } }
 
 /* ==========================================================================
    屏幕骨架
@@ -284,7 +302,6 @@ blockquote { margin: 0; }
   text-align: center;
 }
 
-/* 顶部条 */
 .topbar {
   position: absolute; z-index: 20;
   top: max(10px, env(safe-area-inset-top));
@@ -296,28 +313,28 @@ blockquote { margin: 0; }
   padding: 0 16px;
   border: 1px solid var(--line);
   border-radius: var(--r-md);
-  background: linear-gradient(90deg, #0d1430f2, #16204ae0 62%, #0d1430f2);
+  background: #ffffffe6;
   box-shadow: var(--shadow-lift);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
 }
 .topbar-title { min-width: 0; }
-.topbar-title b { display: block; font-family: var(--font-display); font-size: 17px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.topbar-title span { display: block; font-size: 8px; letter-spacing: .2em; color: var(--veil); text-transform: uppercase; }
+.topbar-title b { display: block; font-family: var(--font-display); font-size: 17px; line-height: 1.2; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-title span { display: block; font-size: 8px; letter-spacing: .2em; color: var(--ink-veil); text-transform: uppercase; }
 .topbar-dots { display: flex; gap: 9px; flex: 0 0 auto; }
 .topbar-dots i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--line-lit); }
-.topbar-dots i.is-on { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 10px #f2d489; }
+.topbar-dots i.is-on { background: var(--rose); border-color: var(--rose); box-shadow: 0 0 9px #ff7fb099; }
 .chip {
   flex: 0 0 auto;
   padding: 5px 11px;
   border: 1px solid var(--line-lit);
   border-radius: 999px;
+  background: #fff;
   font-size: 10px;
-  color: var(--mist);
+  color: var(--ink-soft);
   white-space: nowrap;
 }
 .chip::before { content: "✦"; margin-right: 6px; color: var(--gold); }
 
-/* 底部小工具（音乐 / 指南针） */
 .tools { position: absolute; z-index: 18; bottom: max(12px, env(safe-area-inset-bottom)); display: flex; gap: 10px; }
 .tools.is-left { left: max(12px, env(safe-area-inset-left)); }
 .tools.is-right { right: max(12px, env(safe-area-inset-right)); }
@@ -325,10 +342,10 @@ blockquote { margin: 0; }
   width: 46px; height: 46px;
   display: grid; place-items: center;
   border-radius: 50%;
-  border: 1px solid var(--gold-dim);
-  background: radial-gradient(circle at 36% 30%, #2a3568, #0d1430);
-  box-shadow: var(--shadow-lift), inset 0 0 0 1px #f2d48926;
-  color: var(--gold);
+  border: 1px solid #fff;
+  background: radial-gradient(circle at 36% 30%, #ffffff, #f3d9ff);
+  box-shadow: 0 6px 16px #8a4fc033, 0 0 0 2px #ffd7ea;
+  color: var(--violet-deep);
   font-size: 18px;
 }
 .tool-btn:active { transform: scale(.96); }
@@ -336,7 +353,6 @@ blockquote { margin: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .tool-btn.is-spinning { animation: spin 7s linear infinite; }
 
-/* 设计令牌：屏幕各页共用 */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
@@ -348,7 +364,8 @@ blockquote { margin: 0; }
    relative，地图当场塌成一条。所以改成给装饰负 z-index，并让屏幕自己成栈。
    ========================================================================== */
 .screen { isolation: isolate; }
-.screen > .sky { z-index: -3; }
+.screen > .sky { z-index: -4; }
+.screen > .ground { z-index: -3; }
 .screen > .fireworks,
 .screen > .cover-fireworks,
 .screen > .finale-fireworks { z-index: -2; }

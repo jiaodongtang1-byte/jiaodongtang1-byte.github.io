@@ -59,5 +59,5 @@ test("引路人暗门：长按指南针输口令可以强制收下信物", async
 test("定位自检页随构建一起发出", async ({ page }) => {
   // 现场读坐标的唯一工具，必须真的进 dist，否则人到点上了才发现没工具。
   await page.goto("/geo-test.html");
-  await expect(page.getByRole("heading", { name: "定位自检（Exploration Atlas）" })).toBeVisible({ timeout: 7_000 });
+  await expect(page.getByRole("heading", { name: "定位自检（魔法城堡）" })).toBeVisible({ timeout: 7_000 });
 });

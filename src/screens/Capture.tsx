@@ -82,7 +82,7 @@ export function Capture({ station, referenceSrc, attempt, onCancel, onResult }: 
               : (
                 <div style={{ display: "grid", justifyItems: "center", gap: 10, padding: "18px 14px", textAlign: "center" }}>
                   <div style={{ width: "min(190px, 46%)" }}>{RELICS[station.relic]}</div>
-                  <p style={{ color: "var(--mist)", fontSize: 13, maxWidth: "24em" }}>{station.pose}</p>
+                  <p style={{ color: "var(--ink-soft)", fontSize: 13, maxWidth: "24em" }}>{station.pose}</p>
                 </div>
               )}
           </div>

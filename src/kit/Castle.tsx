@@ -10,17 +10,17 @@ export function Castle({ className = "" }: { className?: string }) {
     <svg className={`castle ${className}`.trim()} viewBox="0 0 480 240" aria-hidden="true">
       {/* 五座塔：中间最大、越往外越矮，塔身宽大于高才不像栅栏 */}
       <path className="castle-body" d="M48 222v-54h44v54z" />
-      <path className="castle-body" d="M42 168 70 128l28 40z" />
+      <path className="castle-roof" d="M42 168 70 128l28 40z" />
       <path className="castle-body" d="M388 222v-54h44v54z" />
-      <path className="castle-body" d="M382 168 410 128l28 40z" />
+      <path className="castle-roof" d="M382 168 410 128l28 40z" />
 
       <path className="castle-body" d="M112 222v-82h56v82z" />
-      <path className="castle-body" d="M106 140 140 90l34 50z" />
+      <path className="castle-roof" d="M106 140 140 90l34 50z" />
       <path className="castle-body" d="M312 222v-82h56v82z" />
-      <path className="castle-body" d="M306 140 340 90l34 50z" />
+      <path className="castle-roof" d="M306 140 340 90l34 50z" />
 
       <path className="castle-body" d="M194 222v-110h92v110z" />
-      <path className="castle-body" d="M186 112 240 44l54 68z" />
+      <path className="castle-roof" d="M186 112 240 44l54 68z" />
 
       {/* 连墙：把塔串成一座城堡，而不是五个独立方块 */}
       <path className="castle-body" d="M92 198h296v24H92z" />
@@ -60,7 +60,7 @@ const DEFAULT_SPOTS = [
   { x: 18, y: 16, color: "var(--rose)", delay: 0 },
   { x: 82, y: 22, color: "var(--gold)", delay: 1.1 },
   { x: 50, y: 8, color: "var(--mint)", delay: 2.2 },
-  { x: 32, y: 30, color: "var(--royal-lift)", delay: 3.0 },
+  { x: 32, y: 30, color: "var(--violet)", delay: 3.0 },
   { x: 70, y: 12, color: "var(--rose)", delay: 4.1 },
 ];
 
@@ -85,7 +85,7 @@ export function Fireworks({ spots = DEFAULT_SPOTS, className = "" }: FireworkPro
             } as CSSProperties}
           >
             {Array.from({ length: rays }, (_, ray) => (
-              <i key={ray} style={{ transform: `rotate(${(360 / rays) * ray}deg) translateY(-26px)` }} />
+              <i key={ray} style={{ transform: `rotate(${(360 / rays) * ray}deg) translateY(-40px)` }} />
             ))}
             <span className="firework-ring" />
           </div>

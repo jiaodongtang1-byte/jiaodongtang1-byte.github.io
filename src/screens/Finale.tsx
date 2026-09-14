@@ -21,12 +21,13 @@ export function Finale({ photos, rehearsal, onReset, onShare }: Props) {
           { x: 14, y: 20, color: "var(--rose)", delay: 0, rays: 14 },
           { x: 86, y: 26, color: "var(--gold)", delay: 0.9, rays: 14 },
           { x: 50, y: 10, color: "var(--mint)", delay: 1.8, rays: 16 },
-          { x: 28, y: 34, color: "var(--royal-lift)", delay: 2.6 },
+          { x: 28, y: 34, color: "var(--violet)", delay: 2.6 },
           { x: 72, y: 16, color: "var(--rose)", delay: 3.4 },
           { x: 60, y: 40, color: "var(--gold)", delay: 4.2 },
         ]}
         className="finale-fireworks"
       />
+      <div className="ground" aria-hidden="true" />
       <Castle className="finale-castle" />
 
       <div className="finale-inner">
@@ -42,7 +43,7 @@ export function Finale({ photos, rehearsal, onReset, onShare }: Props) {
                 <span>{STATIONS.find((s) => s.id === photo.checkpointId)?.relicName ?? "信物"}</span>
               </button>
             ))
-            : <p style={{ color: "var(--veil)", fontSize: 12 }}>三件信物的照片会出现在这里。</p>}
+            : <p style={{ color: "var(--ink-veil)", fontSize: 12 }}>三件信物的照片会出现在这里。</p>}
         </div>
 
         {rehearsal && <button className="btn is-quiet" type="button" onClick={onReset}>重新走一遍</button>}
