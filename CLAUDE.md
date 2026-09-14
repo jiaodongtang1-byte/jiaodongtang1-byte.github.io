@@ -92,7 +92,7 @@ npm run lint && npm test       # tsc + 单测 + 构建 + PWA 契约
 ## 踩过的坑（改前先看）
 
 - **绝对定位的兄弟会画在静态内容上面**，不管 DOM 顺序。所以天空用**负 z-index** 沉下去
-  （`.screen { isolation: isolate }` + `.sky { z-index: -3 }`），**不要**去把内容抬起来——
+  （`.screen { isolation: isolate }` + `.sky { z-index: -4 }`），**不要**去把内容抬起来——
   给 `.screen > *` 加 `position: relative` 会把 `.hunt-map` 的 `absolute` 一起改掉，地图当场塌成一条。
   **新加的装饰层记得排进 `theme.css` 末尾那张分层表**——`.ground` 当初漏了，把城堡整个盖住了。
 - **`opacity: 0` 对读屏和自动化都仍算「可见」**。绘本未翻到的页要 `visibility: hidden`。
