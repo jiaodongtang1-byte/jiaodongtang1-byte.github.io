@@ -82,16 +82,20 @@
 /* 出发点：走过的起点，低调的小空心点 */
 .hunt-start circle { fill: #fff; stroke: var(--violet-deep); stroke-width: 2; opacity: .9; }
 
-/* 目标：会呼吸的信物信标 */
-.hunt-goal .goal-glow { animation: goalBreathe 3.4s ease-in-out infinite; }
-.hunt-goal .goal-ping { fill: none; stroke: #ff9ec9; stroke-width: 2; transform-origin: center; animation: goalPing 2.8s ease-out infinite; }
+/* 目标：会呼吸的信物信标。
+   ⚠️ 动画里的 scale 必须以元素自身为原点：SVG 子元素的 transform-origin 默认按
+   viewBox 算，直接写 center 会绕画布中心缩放——信标在画布边上时，那个扩散圈
+   会被甩到屏幕外几百像素（实测信标在 [90,171]、圈跑到 [-125,-194]）。
+   transform-box: fill-box 才让 center 指元素自己的盒子。 */
+.hunt-goal .goal-glow { transform-box: fill-box; transform-origin: center; animation: goalBreathe 3.4s ease-in-out infinite; }
+.hunt-goal .goal-ping { fill: none; stroke: #ff9ec9; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: goalPing 2.8s ease-out infinite; }
 .hunt-goal .goal-ping.is-late { animation-delay: 1.4s; }
 .hunt-goal .goal-disc { fill: #fff; stroke: #e07fae; stroke-width: 2.6; filter: drop-shadow(0 2px 5px #b5569f4d); }
 .hunt-goal .goal-star { fill: #f2a03c; }
 
 /* 自己：紫罗兰光晕 + 白芯，跟出发点的小空心点区分开 */
 .hunt-you .you-core { fill: #fff; stroke: #7a3fae; stroke-width: 2.4; }
-.hunt-you .you-ring { fill: none; stroke: #7a3fae; stroke-width: 1.4; opacity: .55; animation: youPulse 2.4s ease-in-out infinite; }
+.hunt-you .you-ring { fill: none; stroke: #7a3fae; stroke-width: 1.4; opacity: .55; transform-box: fill-box; transform-origin: center; animation: youPulse 2.4s ease-in-out infinite; }
 
 .hunt-caption {
   fill: var(--ink);
