@@ -59,23 +59,47 @@
 
 /* ---------- 3 · 寻宝页（地图 + 任务卡 + 雷达） ---------- */
 
-.hunt-map { position: absolute; inset: 0; background: #eef4ff; overflow: hidden; }
+.hunt-map { position: absolute; inset: 0; background: #f3ecff; overflow: hidden; }
 .hunt-map > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* 亮色主题下不再反相：把白天的高德瓦片往粉紫里调一点就已经很梦幻，
-   反相会变成夜图、和柔光天打架。 */
-.hunt-tile { filter: saturate(.72) brightness(1.06) contrast(.94) hue-rotate(-8deg); }
-.hunt-grid { fill: none; stroke: var(--violet-deep); stroke-width: .5; opacity: .08; }
-.hunt-route { fill: none; stroke: #b5569f; stroke-width: 1.8; stroke-dasharray: 3 9; stroke-linecap: round; opacity: .8; filter: drop-shadow(0 0 2px #ffffffcc); }
-.hunt-you circle.halo { fill: #a06fdc33; }
-.hunt-you circle.core { fill: #7a3fae; }
-.hunt-you circle.ring { fill: none; stroke: #7a3fae; stroke-width: 1.6; opacity: .85; }
-.hunt-goal .goal-halo { fill: #ff7fb03d; animation: goalPulse 2.6s ease-in-out infinite; }
-.hunt-goal .goal-ring { fill: #fff; stroke: #e07fae; stroke-width: 2.5; }
-.hunt-goal .goal-core { fill: #ff7fb0; }
-.hunt-goal .goal-ray { fill: none; stroke: #e07fae; stroke-width: 2; stroke-linecap: round; opacity: .9; }
-.hunt-caption { fill: var(--ink-soft); font-size: 9px; letter-spacing: .18em; text-anchor: middle; }
+/* 亮色主题下不反相：把白天的高德瓦片往粉紫里调一点就已经很梦幻，
+   反相会变成夜图、和柔光天打架。
+   压掉饱和是主戏——不压的话瓦片自带的草绿和高速橙会跟粉紫打架，
+   压成近乎单色之后，上面那层 mapWash 才能把它染成同一个色系。 */
+.hunt-tile { filter: saturate(.30) brightness(1.04) contrast(1.16); }
+/* 染色走 mix-blend-mode: color，不是盖一层半透明色——
+   color 只接管色相与饱和、保留瓦片自己的明度，路网结构原样留住；
+   盖半透明色会把明度一起抬平，路就糊成一片奶油色，好看但没法认路。 */
+.hunt-wash { mix-blend-mode: color; opacity: .92; }
+.hunt-wash, .hunt-vignette { pointer-events: none; }
 
-@keyframes goalPulse { 0%, 100% { opacity: .35; transform: scale(1); } 50% { opacity: .8; transform: scale(1.25); } }
+/* 路线：白底描边保证压在任何瓦片上都能读，上面走玫瑰色虚线 */
+.hunt-route-halo { fill: none; stroke: #fff; stroke-width: 5; stroke-linecap: round; opacity: .75; }
+.hunt-route { fill: none; stroke: #c2569e; stroke-width: 2.2; stroke-dasharray: 1 10; stroke-linecap: round; animation: routeFlow 1.6s linear infinite; }
+
+/* 出发点：走过的起点，低调的小空心点 */
+.hunt-start circle { fill: #fff; stroke: var(--violet-deep); stroke-width: 2; opacity: .9; }
+
+/* 目标：会呼吸的信物信标 */
+.hunt-goal .goal-glow { animation: goalBreathe 3.4s ease-in-out infinite; }
+.hunt-goal .goal-ping { fill: none; stroke: #ff9ec9; stroke-width: 2; transform-origin: center; animation: goalPing 2.8s ease-out infinite; }
+.hunt-goal .goal-ping.is-late { animation-delay: 1.4s; }
+.hunt-goal .goal-disc { fill: #fff; stroke: #e07fae; stroke-width: 2.6; filter: drop-shadow(0 2px 5px #b5569f4d); }
+.hunt-goal .goal-star { fill: #f2a03c; }
+
+/* 自己：紫罗兰光晕 + 白芯，跟出发点的小空心点区分开 */
+.hunt-you .you-core { fill: #fff; stroke: #7a3fae; stroke-width: 2.4; }
+.hunt-you .you-ring { fill: none; stroke: #7a3fae; stroke-width: 1.4; opacity: .55; animation: youPulse 2.4s ease-in-out infinite; }
+
+.hunt-caption {
+  fill: var(--ink);
+  font-size: 10px; font-weight: 600; letter-spacing: .16em; text-anchor: middle;
+  paint-order: stroke; stroke: #fff; stroke-width: 2.6px; stroke-linejoin: round;
+}
+
+@keyframes goalBreathe { 0%, 100% { opacity: .62; transform: scale(.9); } 50% { opacity: 1; transform: scale(1.12); } }
+@keyframes goalPing { 0% { transform: scale(.55); opacity: .9; } 70% { transform: scale(2.1); opacity: 0; } 100% { transform: scale(2.1); opacity: 0; } }
+@keyframes youPulse { 0%, 100% { transform: scale(1); opacity: .5; } 50% { transform: scale(1.35); opacity: .15; } }
+@keyframes routeFlow { to { stroke-dashoffset: -11; } }
 
 .quest {
   position: absolute; z-index: 16;

@@ -131,6 +131,13 @@ describe("投影", () => {
     expect(tall.y).toBeGreaterThanOrEqual(0);
     expect(tall.y).toBeLessThanOrEqual(720);
   });
+
+  it("站在画布外会被夹回边距以内，标记不会被切掉", () => {
+    const far = { latitude: 30.9, longitude: 104.3 };
+    const near = projectLocationToBounds(far, bounds, 390, 720, 16);
+    expect(near.x).toBe(390 - 16);
+    expect(near.y).toBe(16);
+  });
 });
 
 describe("距离文案", () => {

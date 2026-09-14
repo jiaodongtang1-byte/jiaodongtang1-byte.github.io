@@ -69,7 +69,8 @@ export function Hunt({
 
   const you = useMemo(() => {
     if (!geom || !position || !reliable) return null;
-    return projectLocationToBounds(position, geom.bounds, geom.plate.width, geom.plate.height);
+    // 边距 = 标记外圈的半径，站在画布外时整枚点仍然完整可见
+    return projectLocationToBounds(position, geom.bounds, geom.plate.width, geom.plate.height, 16);
   }, [geom, position, reliable]);
 
   const bearing = position ? bearingDegrees(position, station.location) : 0;
@@ -93,6 +94,29 @@ export function Hunt({
       <div className="hunt-map" ref={mapRef}>
         {geom && (
           <svg viewBox={`0 0 ${geom.plate.width} ${geom.plate.height}`} aria-label={`${station.place} 地图`}>
+            <defs>
+              <radialGradient id="mapGlowGold" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#ffc46b" stopOpacity=".85" />
+                <stop offset="45%" stopColor="#ff9ec9" stopOpacity=".38" />
+                <stop offset="100%" stopColor="#ff9ec9" stopOpacity="0" />
+              </radialGradient>
+              <radialGradient id="mapGlowViolet" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#a06fdc" stopOpacity=".55" />
+                <stop offset="100%" stopColor="#a06fdc" stopOpacity="0" />
+              </radialGradient>
+              {/* color 混合只取这张渐变的色相与饱和，所以 stop 必须不透明——
+                  带 alpha 的话会被当成普通半透明覆盖，瓦片自己的绿色就透上来了。 */}
+              <linearGradient id="mapWash" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#cbb6ff" />
+                <stop offset="50%" stopColor="#ffe6f2" />
+                <stop offset="100%" stopColor="#ffbcd8" />
+              </linearGradient>
+              <radialGradient id="mapVignette" cx="50%" cy="46%" r="78%">
+                <stop offset="68%" stopColor="#e7d3ee" stopOpacity="0" />
+                <stop offset="100%" stopColor="#e7d3ee" stopOpacity=".42" />
+              </radialGradient>
+            </defs>
+
             <g className="hunt-tile">
               {tiles.map((tile) => (
                 <image
@@ -107,25 +131,34 @@ export function Hunt({
               ))}
             </g>
 
+            {/* 洗色 + 暗角：把高德的绿灰橙统一成粉紫，边缘化进奶油底，
+                免得瓦片在屏幕边上硬切一刀。 */}
+            <rect className="hunt-wash" width={geom.plate.width} height={geom.plate.height} fill="url(#mapWash)" />
+            <rect className="hunt-vignette" width={geom.plate.width} height={geom.plate.height} fill="url(#mapVignette)" />
+
+            <path className="hunt-route-halo" d={geom.path} />
             <path className="hunt-route" d={geom.path} />
 
-            <g className="hunt-goal" transform={`translate(${geom.goal.x} ${geom.goal.y})`}>
-              <circle className="goal-halo" r="46" />
-              <circle className="goal-ring" r="13" />
-              <circle className="goal-core" r="5" />
-              <path className="goal-ray" d="M0-46V-32M0 46V32M-46 0H-32M46 0H32" />
+            {/* 出发点：走过的起点，低调 */}
+            <g className="hunt-start" transform={`translate(${geom.start.x} ${geom.start.y})`}>
+              <circle r="7" />
+              <text className="hunt-caption" y="24">出发点</text>
             </g>
 
-            <g className="hunt-you" transform={`translate(${geom.start.x} ${geom.start.y})`}>
-              <circle className="ring" r="8" />
-              <text className="hunt-caption" y="26">出发点</text>
+            {/* 目标：会呼吸的信物信标 */}
+            <g className="hunt-goal" transform={`translate(${geom.goal.x} ${geom.goal.y})`}>
+              <circle className="goal-glow" r="62" fill="url(#mapGlowGold)" />
+              <circle className="goal-ping" r="17" />
+              <circle className="goal-ping is-late" r="17" />
+              <circle className="goal-disc" r="14" />
+              <path className="goal-star" d="M0-8.5 2.1-2.1 8.5 0 2.1 2.1 0 8.5-2.1 2.1-8.5 0-2.1-2.1Z" />
             </g>
 
             {you && (
               <g className="hunt-you" transform={`translate(${you.x} ${you.y})`}>
-                <circle className="halo" r="24" />
-                <circle className="core" r="7" />
-                <circle className="ring" r="13" />
+                <circle className="you-glow" r="34" fill="url(#mapGlowViolet)" />
+                <circle className="you-core" r="6.5" />
+                <circle className="you-ring" r="11.5" />
               </g>
             )}
           </svg>

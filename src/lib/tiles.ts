@@ -22,8 +22,11 @@ type TileSource = {
 
 export const TILE_SOURCES: Record<TileSourceId, TileSource> = {
   amap: {
+    // style=7 而不是 8：8 是带满标注与 POI 图标的完整底图，密到地图上
+    // 自己的「出发点」会被「海底捞」「停车场」压住；7 只有路网底色，
+    // 恰好当一张安静的绘本地图。同一家的瓦片，只换 style 参数。
     url: (z, x, y) =>
-      `https://webrd0${(x + y) % 4 + 1}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x=${x}&y=${y}&z=${z}`,
+      `https://webrd0${(x + y) % 4 + 1}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=7&x=${x}&y=${y}&z=${z}`,
     scheme: "gcj02",
     attribution: "© 高德地图",
     maxZoom: 18,

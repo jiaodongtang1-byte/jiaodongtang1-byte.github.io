@@ -62,11 +62,14 @@ export function projectLocationToBounds(
   bounds: MapBounds,
   width = 800,
   height = 500,
+  // 标记被推出画布时会被夹回边上，夹的边距得容得下标记自身，
+  // 否则站在圈外时「你在这里」那个点每次都被切掉一半。
+  margin = 10,
 ) {
   const { x, y } = projectLocationToBoundsUnclamped(point, bounds, width, height);
   return {
-    x: Math.max(10, Math.min(width - 10, x)),
-    y: Math.max(10, Math.min(height - 10, y)),
+    x: Math.max(margin, Math.min(width - margin, x)),
+    y: Math.max(margin, Math.min(height - margin, y)),
   };
 }
 
